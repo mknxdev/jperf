@@ -1,0 +1,11 @@
+.github/
+node_modules/
+public/
+tests/
+.eslintrc
+.gitignore
+.prettierignore
+.prettierrc
+rollup.config.*
+TODO.*
+tsconfig.json

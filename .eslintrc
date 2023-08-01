@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "eqeqeq": ["warn", "always"],
+    "@typescript-eslint/ban-ts-comment": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "globals": {
+    "__dirname": true
+  }
+}
