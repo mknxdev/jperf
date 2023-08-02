@@ -1,22 +1,31 @@
-type Config = {}
+import JTLogger from './JTLogger'
+import { Config } from './types'
 
 export default class JTester {
+  _logger: JTLogger = new JTLogger()
   _config: Config
-  _testData: { fn: Function; time: number; ran: boolean }[] = []
+  _testData: { fn: Function; time: number }[] = []
 
   constructor(config: Config) {
     this._config = config
   }
-  addTestFn(fn: Function) {
-    this._testData.push({ fn, time: 0, ran: false })
-  }
-  run(): void {
-    for (const test of this._testData) {
-      const start = new Date().getTime()
-      test.fn()
-      const end = new Date().getTime()
-      test.time = end - start
-      test.ran = true
+  test(fn: Function = undefined) {
+    const test = {
+      fn,
+      time: 0
     }
+    const start = new Date().getTime()
+    test.fn()
+    const end = new Date().getTime()
+    test.time = end - start
+    this._testData.push(test)
+  }
+  tick(): void {
+
+  }
+  showAnalysis(): void {
+    for (const [i, test] of this._testData.entries())
+      this._logger.addTest(`Test #${i + 1}`, test.time, test.fn)
+    this._logger.log()
   }
 }

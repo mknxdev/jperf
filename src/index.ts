@@ -1,10 +1,15 @@
 import JTester from './JTester'
+import { UserConfig, Config } from './types'
 
-export default function (configOrFn: Function) {
-  if (typeof configOrFn === 'function') {
-    const jt = new JTester({})
-    jt.addTestFn(configOrFn)
-    jt.run()
+const validConfig = (config: UserConfig): boolean => {
+  return true
+}
+const fillConfigDefaults = (config: UserConfig): Config => {
+  return {}
+}
+
+export default function (config: UserConfig) {
+  if (validConfig(config)) {
+    return new JTester(fillConfigDefaults(config))
   }
-  return new JTester(configOrFn)
 }
