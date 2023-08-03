@@ -12,7 +12,7 @@ export default class JTester {
   test(fn: Function = undefined) {
     const test = {
       fn,
-      time: 0
+      time: 0,
     }
     const start = new Date().getTime()
     test.fn()
@@ -20,9 +20,7 @@ export default class JTester {
     test.time = end - start
     this._testData.push(test)
   }
-  tick(): void {
-
-  }
+  tick(): void {}
   showAnalysis(): void {
     for (const [i, test] of this._testData.entries())
       this._logger.addTest(`Test #${i + 1}`, test.time, test.fn)
