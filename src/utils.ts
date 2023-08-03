@@ -1,21 +1,28 @@
-export const d = (ms: number) => {
-  ms = ms * 1000.468
-  console.log(ms)
-  const msRules = {
-    s: 1000,
-    mn: 60000,
-    hr: 3600000,
+export const d = (millis: number) => {
+  console.log(millis)
+  if (millis < 1000) return `${millis}ms`
+  if (millis < 60000) return `${millis / 1000}s`
+  if (millis < 3600000) {
+    const mn: number = Math.trunc(millis / 60000)
+    const sDec: number = millis % 60000 / 1000
+    const s: number = Math.trunc(millis % 60000 / 1000)
+    let ms: string = sDec.toString().substring(sDec.toString().indexOf('.'))
+    ms = ms !== '0' ? ms : ''
+    return `${mn}mn ${s}${ms}s`
   }
-  let time = { l: 0, r: 0, u: 'ms' }
-  for (const [u, t] of Object.entries(msRules)) {
-    if (ms / t >= 1) {
-      time.l = u !== 's' ? Math.trunc(ms / t) : ms / t
-      time.r = u !== 's' ? (ms % t) / 1000 : 0
-      time.u = u
-    }
-  }
-  const left = !Number.isInteger(time.l) ? `${time.l.toFixed(3)}` : `${time.l}`
-  const right = time.r ? `.${time.r}` : ''
-  console.log(time)
-  return `${left}${right}${time.u}`
+  const hr: number = Math.trunc(millis / 3600000)
+  const mn: number = Math.trunc(millis % 60000)
+  const sDec: number = millis % 60000 / 1000
+  const s: number = Math.trunc(millis % 60000 / 1000)
+  let ms: string = sDec.toString().substring(sDec.toString().indexOf('.'))
+  ms = ms !== '0' ? ms : ''
+  return `${hr}hr ${mn}mn ${s}${ms}s`
 }
+
+// 734ms
+
+// 37.429s
+
+// 28mn 53.131s
+
+// 1hr 46mn 12.458s
