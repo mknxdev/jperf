@@ -1,3 +1,5 @@
+// Numbers
+
 const S_DIVIDER = 1000
 const MN_DIVIDER = 60000
 const HR_DIVIDER = 3600000

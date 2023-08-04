@@ -7,7 +7,8 @@ const validConfig = (config: UserConfig): boolean => {
 const fillConfigDefaults = (config: UserConfig): Config => {
   const conf = config || {}
   return {
-    autorun: conf.autorun !== undefined ? config.autorun : true
+    autorun: conf.autorun !== undefined ? config.autorun : true,
+    verbose: conf.verbose !== undefined ? config.verbose : false
   }
 }
 
