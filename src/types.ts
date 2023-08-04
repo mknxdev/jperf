@@ -1,2 +1,6 @@
-export type UserConfig = {}
-export type Config = {}
+export type UserConfig = {
+  autorun?: boolean
+}
+export type Config = {
+  autorun: boolean
+}

@@ -5,7 +5,10 @@ const validConfig = (config: UserConfig): boolean => {
   return true
 }
 const fillConfigDefaults = (config: UserConfig): Config => {
-  return {}
+  const conf = config || {}
+  return {
+    autorun: conf.autorun !== undefined ? config.autorun : true
+  }
 }
 
 export default function (config: UserConfig) {

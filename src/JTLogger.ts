@@ -30,8 +30,11 @@ export default class JTLogger {
   }
   log(): void {
     let output = `JTester\r\n+\r\n`
-    for (const test of this._tests)
-      output += `| [${test.id}]\r\n|\r\n| Runtime: ${d(test.time)}\r\n+\r\n`
+    if (this._tests.length)
+      for (const test of this._tests)
+        output += `| [${test.id}]\r\n|\r\n| Runtime: ${d(test.time)}\r\n+\r\n`
+    else
+      output += `| No ran tests.\r\n+\r\n`
     output = this._formatOutput(output)
     console.log(output)
   }
