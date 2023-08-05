@@ -1,4 +1,4 @@
-# jTester
+# <div align="center">jTester</div>
 
 jTester is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to test arbitrary code and expose related performance informations.
 

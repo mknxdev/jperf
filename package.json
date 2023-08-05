@@ -1,8 +1,10 @@
 {
   "name": "jtester",
   "version": "1.0.0-beta.1",
-  "description": "",
+  "description": "Lightweight JavaScript code performance testing utility for web browsers and Node.js.",
+  "keywords": ["nodejs", "javascript", "testing", "performance", "code"],
   "main": "dist/jtester.min.js",
+  "module": "dist/jtester.esm/min.js",
   "scripts": {
     "test": "jest -u -c jest.config.ts --verbose",
     "ci-test": "jest -u -c jest.config.ts",

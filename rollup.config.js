@@ -25,6 +25,19 @@ if (process.env.MODE === 'production') {
       }),
     ],
   })
+  output.push({
+    file: 'dist/jtester.esm.js',
+    format: 'es',
+  })
+  output.push({
+    file: 'dist/jtester.esm.min.js',
+    format: 'es',
+    plugins: [
+      terser({
+        compress: true,
+      }),
+    ],
+  })
 } else {
   output.push({
     name: 'jTester',
