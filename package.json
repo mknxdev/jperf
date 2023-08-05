@@ -7,7 +7,8 @@
     "test": "jest -u -c jest.config.ts --verbose",
     "ci-test": "jest -u -c jest.config.ts",
     "serve": "rollup -c rollup.config.js -w --bundleConfigAsCjs --environment MODE:local",
-    "build:dev": "rollup -c rollup.config.js -w --bundleConfigAsCjs"
+    "build:dev": "rollup -c rollup.config.js --bundleConfigAsCjs --environment MODE:development",
+    "build:production": "rollup -c rollup.config.js --bundleConfigAsCjs --environment MODE:production"
   },
   "repository": {
     "type": "git",
