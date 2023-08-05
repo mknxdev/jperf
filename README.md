@@ -104,25 +104,28 @@ Here is the full list of the public properties and methods exposed by the jTeste
 
 ### Methods
 
-### `.test(testFn: Function)`
+Note: All methods that return a `JTester` object can be chained during calls.
+
+### `.test(testFn: Function): JTester`
 
 **Defines a performance test task.**
 
 This method accepts a function as only argument which be internally called and analysed.  
 Each call to this method will automatically trigger the `testFn` function execution unless the `autorun` configuration is set to `false`.
 
-### `.run()`
+### `.run(): JTester`
 
 **Runs previously defined performance test tasks.**
 
 This method manually triggers tasks' execution. It is not needed if `autorun` configuration option is set to `true`.
+It is chainable with other instance methods.
 
-### `.showAnalysis()`
+### `.showAnalysis(): JTester`
 
 **Logs testing results.**
 
 Method used to log performance results of previous test tasks in the console.  
-It chainable with any `.test` calls.
+It is chainable with other instance methods.
 
 ### Properties
 

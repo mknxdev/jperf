@@ -21,12 +21,6 @@ export default class JTester {
     if (this._config.autorun) this.run()
     return this
   }
-  showAnalysis(): void {
-    for (const [i, test] of this._testData.entries())
-      if (test.processed)
-        this._logger.addTest(`Test #${i + 1}`, test.time, test.fn)
-    this._logger.log()
-  }
   run(): JTester {
     this._testData = this._testData.map((test) => {
       if (!test.processed) {
@@ -39,5 +33,15 @@ export default class JTester {
       return test
     })
     return this
+  }
+  showAnalysis(): JTester {
+    for (const [i, test] of this._testData.entries())
+      if (test.processed)
+        this._logger.addTest(`Test #${i + 1}`, test.time, test.fn)
+    this._logger.log()
+    return this
+  }
+  getAnalysis() {
+
   }
 }
