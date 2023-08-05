@@ -17,10 +17,10 @@ As this tool will often be used only temporary for testing purposes, the quickes
 However, you can also use a package manager to install jTester to your project.
 
 ```sh
-npm install --save-dev jtester
+npm install --save-dev jtester-tool
 ```
 ```sh
-yarn add -D jtester
+yarn add -D jtester-tool
 ```
 
 ### Usage
@@ -34,9 +34,9 @@ jTester().test(/* ... */)
 The package can also be imported using CommonJS or ESM syntaxes.
 
 ```js
-import jtester from 'jtester' // ESM
+import jtester from 'jtester-tool' // ESM
 // or
-const jtester = require('jtester') // CJS
+const jtester = require('jtester-tool') // CJS
 
 jtester().test(/* ... */)
 ```

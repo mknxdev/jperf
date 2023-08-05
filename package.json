@@ -1,5 +1,5 @@
 {
-  "name": "jtester",
+  "name": "jtester-tool",
   "version": "1.0.0-beta.1",
   "description": "Lightweight JavaScript code performance testing utility for web browsers and Node.js.",
   "keywords": ["nodejs", "javascript", "testing", "performance", "code"],
