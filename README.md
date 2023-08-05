@@ -106,18 +106,28 @@ Here is the full list of the public properties and methods exposed by the jTeste
 
 ### `.test(testFn: Function)`
 
-**Defines a code performance test task.**
+**Defines a performance test task.**
 
 This method accepts a function as only argument which be internally called and analysed.  
 Each call to this method will automatically trigger the `testFn` function execution unless the `autorun` configuration is set to `false`.
+
+### `.run()`
+
+**Runs previously defined performance test tasks.**
+
+This method manually triggers tasks' execution. It is not needed if `autorun` configuration option is set to `true`.
 
 ### `.showAnalysis()`
 
 **Logs testing results.**
 
-This method must be called after `.test` previous calls to log the performance results in the console.  
-It can be chained directly after `.test` calls.
+Method used to log performance results of previous test tasks in the console.  
+It chainable with any `.test` calls.
 
 ### Properties
 
 /
+
+## Licensing
+
+This package is released under the [MIT](https://opensource.org/license/mit/) license.
