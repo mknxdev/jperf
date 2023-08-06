@@ -4,6 +4,9 @@ jTester is a lightweight JavaScript code tester utility for the browser and Node
 
 ## Installation
 
+The main package's bundle uses the UMD format, meaning that it can be installed in multiple ways.  
+An ESM-specific bundle is also available for use in modern projects.
+
 ### CDN (browser-only)
 
 As this tool will often be used only temporary for testing purposes, the quickest way to add it to your codebase is by using a CDN-based script (which can be easily removed after testing).
@@ -17,7 +20,7 @@ As this tool will often be used only temporary for testing purposes, the quickes
 However, you can also use a package manager to install jTester to your project.
 
 ```sh
-npm install --save-dev jtester-tool
+npm i -D jtester-tool
 ```
 ```sh
 yarn add -D jtester-tool
@@ -54,7 +57,7 @@ jTester()
   .showAnalysis()
 ```
 
-Multiple tests can be executed at oncde by chaining the `.test` method multiple times.
+Multiple tests can be executed at once by chaining the `.test` method multiple times.
 
 ```js
 const testData = []
@@ -73,7 +76,7 @@ jTester()
   .showAnalysis()
 ```
 
-Note that only the inner code of the `.test`-provided function will be analysed, so you need to isolate the code that needs to be tested in this function.
+Note that only the inner code of the `.test`-provided function will be analysed, which means that you need to isolate the tested code in this function to get accurate running informations.
 
 ## Configuration
 
@@ -108,7 +111,7 @@ By setting this option to `false`, code tests will be simply stored and prepared
 
 Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
 
-> **Note:** Some system or hardware-related informations are based on browser properties that are not 100% reliable (typically `User-Agent`) because they can be changed by the user.
+> **Note:** In browsers contexts, some system or hardware-related informations are based on browser properties that are not 100% reliable (typically `User-Agent`) because they can be changed by the user. They are only used for informational purposes.
 
 ## Public API
 
