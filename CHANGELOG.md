@@ -7,7 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0-beta.1] - 2023-07-21
+## [1.0.0-beta.3] - 2023-08-06
+
+### Added
+
+- `verbose` option to display more debug informations
+
+## [1.0.0-beta.2] - 2023-08-05
+
+### Changed
+
+- Improved docs
+
+## [1.0.0-beta.1] - 2023-08-03
 
 ### Added
 

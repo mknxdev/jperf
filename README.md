@@ -85,7 +85,7 @@ jTester({
 })
 ```
 
-All configuration options are described below.
+All available configuration options are described below.
 
 ### autorun
 
@@ -97,6 +97,18 @@ All configuration options are described below.
 
 By default, code tests will be executed on-the-fly right away after they are defined through the `.test` method.  
 By setting this option to `false`, code tests will be simply stored and prepared for execution. In this case the execution must be triggered manually with the `.run` method.
+
+### verbose
+
+| type    | default |
+|---------|---------|
+| boolean | false   |
+
+**Displays advanced informations about system and code tests.**
+
+Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
+
+> **Note:** Some system or hardware-related informations are based on browser properties that are not 100% reliable (typically `User-Agent`) because they can be changed by the user.
 
 ## Public API
 
