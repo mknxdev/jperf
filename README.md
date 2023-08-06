@@ -143,6 +143,10 @@ It is chainable with other instance methods.
 Method used to log performance results of previous test tasks in the console.  
 It is chainable with other instance methods.
 
+### `.log(): JTester`
+
+**Alias for `.showAnalysis`.**
+
 ### `.getAnalysis(format: string = 'js'): Object | string`
 
 **Get analysis logs data.**

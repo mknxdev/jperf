@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `.log` alias function for `.showAnalysis`
+
 ## [1.0.0-beta.5] - 2023-08-06
 
 ### Added

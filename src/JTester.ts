@@ -85,6 +85,9 @@ export default class JTester {
     this._logger.log()
     return this
   }
+  log(): JTester {
+    return this.showAnalysis()
+  }
   getAnalysis(format = 'js'): TestAnalysis | string {
     return {
       js: this._getFormattedAnalysis(),
