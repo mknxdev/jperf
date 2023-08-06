@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add HW info for verbose mode in NJS mode
+- `getAnalysis` public method to retrieve analysis data (JS, JSON, XML)
 
 ## [1.0.0-beta.4] - 2023-08-06
 

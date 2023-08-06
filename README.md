@@ -143,6 +143,27 @@ It is chainable with other instance methods.
 Method used to log performance results of previous test tasks in the console.  
 It is chainable with other instance methods.
 
+### `.getAnalysis(format: string = 'js'): Object | string`
+
+**Get analysis logs data.**
+
+Use this method to retrieve analysis using various standard formats.  
+It accepts one `format` argument which must be one of `js` (default), `json` or `xml`.
+
+Here is the list of analysis properties returned by this method (this is applicable to all formats).
+
+```js
+{
+  version: "x.x.x", // jTester version
+  tests: [
+    {
+      name: 'test', // test name
+      runtime: 0, // test's execution runtime (milliseconds)
+    }
+  ]
+}
+```
+
 ### Properties
 
 /
