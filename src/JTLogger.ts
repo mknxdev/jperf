@@ -42,16 +42,14 @@ export default class JTLogger {
     let output = `${brand}\r\n`
     if (this._verboseMode) {
       for (let i = 0; i < brand.length; i++) output += '-'
-      console.log(this._hwDetails);
-      const { cpus, os, architecture } = this._hwDetails
-      output += `\r\n[System]\r\n> OS: ${os}\r\n> Architecture: ${architecture}\r\n> CPU cores: ${cpus}\r\n`
+      const { os, architecture, cpus, memory } = this._hwDetails
+      output += `\r\n[System]\r\n> OS: ${os}\r\n> Architecture: ${architecture}\r\n> CPU cores: ${cpus}\r\n> Memory: ${memory}\r\n`
     }
     output += `\r\n+\r\n`
     if (this._tests.length)
       for (const test of this._tests)
         output += `| [${test.id}]\r\n|\r\n| Runtime: ${d(test.time)}\r\n+\r\n`
-    else
-      output += `| No ran tests.\r\n+\r\n`
+    else output += `| No ran tests.\r\n+\r\n`
     output = this._formatOutput(output)
     console.log(output)
   }

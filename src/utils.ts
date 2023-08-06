@@ -21,8 +21,28 @@ export const d = (millis: number) => {
   return `${hr}hr ${mn}mn ${s}s`
 }
 
+const size = (nb: number) => {
+  const units = ['kB', 'MB', 'GB']
+  return units.reduce(
+    (s, unit) => {
+      if (s.value / 1024 >= 1) {
+        s.value = s.value / 1024
+        s.unit = unit
+      }
+      return s
+    },
+    { value: nb, unit: 'B' },
+  )
+}
+
 // System
 
+type HWDetails = {
+  os: string
+  architecture: string
+  cpus: number | string
+  memory: string
+}
 const SYS_MODE_WEBBROWSER = 'wb'
 const SYS_MODE_NODEJS = 'njs'
 const SYS_MODE_UNKNOWN = 'unknown'
@@ -58,18 +78,31 @@ const detectArchitecture = () => {
     return ['x64', 'x86_64'].includes(process.arch) ? '64-bit' : '32-bit'
 }
 
-export const getHardwareDetails = () => {
+export const getHardwareDetails = (): HWDetails => {
   const details = {
     os: detectOS(),
     architecture: detectArchitecture(),
     cpus: undefined,
+    memory: undefined,
   }
   if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
     details.cpus = navigator.hardwareConcurrency || undefined
+    const memory = performance.memory
+      ? size(performance.memory?.jsHeapSizeLimit)
+      : undefined
+    details.memory = memory
+      ? `${memory.value.toFixed(2)} ${memory.unit} (allocated)`
+      : undefined
   }
   if (getRunningMode() === SYS_MODE_NODEJS) {
     const os = getNodeOS()
+    const memory = size(os.totalmem())
     details.cpus = os.cpus().length
+    details.memory = `${memory.value.toFixed(2)} ${memory.unit} (total)`
   }
-  return details
+  return Object.entries(details).reduce((d, [name, value]) => {
+    if (value === undefined) value = '-'
+    d[name] = value
+    return d
+  }, details)
 }
