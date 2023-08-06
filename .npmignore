@@ -4,8 +4,10 @@ public/
 tests/
 .eslintrc
 .gitignore
+.editorconfig
 .prettierignore
 .prettierrc
 rollup.config.*
 TODO.*
-tsconfig.json
+babel.config.js
+jest.config.ts

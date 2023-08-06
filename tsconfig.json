@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["es2015", "es2016", "es6", "es2018.promise", "es2022", "dom"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "target": "es6",
     "module": "es2022",
     "moduleResolution": "node",

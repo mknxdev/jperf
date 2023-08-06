@@ -29,7 +29,7 @@ const fillConfigDefaults = (config: UserConfig): Config => {
   }
 }
 
-export default function (config: UserConfig) {
+export default function (config: UserConfig = {}) {
   if (validConfig(config)) {
     return new JTester(fillConfigDefaults(config))
   }

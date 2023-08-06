@@ -37,6 +37,11 @@ const size = (nb: number) => {
 
 // System
 
+type XPerformance = Performance & {
+  memory: {
+    jsHeapSizeLimit: number
+  }
+}
 type HWDetails = {
   os: string
   architecture: string
@@ -87,8 +92,8 @@ export const getHardwareDetails = (): HWDetails => {
   }
   if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
     details.cpus = navigator.hardwareConcurrency || undefined
-    const memory = performance.memory
-      ? size(performance.memory?.jsHeapSizeLimit)
+    const memory = (performance as XPerformance).memory
+      ? size((performance as XPerformance).memory?.jsHeapSizeLimit)
       : undefined
     details.memory = memory
       ? `${memory.value.toFixed(2)} ${memory.unit} (allocated)`
