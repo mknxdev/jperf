@@ -1,15 +1,19 @@
 import JTLogger from './JTLogger'
 import { Config } from './types'
+import { getRunningMode, getHardwareDetails } from './utils'
 
 type TestData = { fn: Function; time: number, processed: boolean }
 
 export default class JTester {
-  _logger: JTLogger = new JTLogger()
+  _mode: string = getRunningMode()
+  _hwDetails = getHardwareDetails()
   _config: Config
   _testData: TestData[] = []
+  _logger: JTLogger
 
   constructor(config: Config) {
     this._config = config
+    this._logger = new JTLogger(config.verbose, this._hwDetails)
   }
   test(fn: Function = undefined): JTester {
     const test: TestData = {

@@ -1,6 +1,7 @@
 import serve from 'rollup-plugin-serve'
 import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
+import json from '@rollup/plugin-json'
 
 console.log(process.env.MODE);
 
@@ -47,7 +48,7 @@ if (process.env.MODE === 'production') {
 }
 
 // PLUGINS
-const plugins = [typescript()]
+const plugins = [typescript(), json()]
 if (process.env.MODE === 'local')
   plugins.splice(
     0,
