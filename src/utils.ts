@@ -23,31 +23,53 @@ export const d = (millis: number) => {
 
 // System
 
-const UA = navigator.userAgent
 const SYS_MODE_WEBBROWSER = 'wb'
 const SYS_MODE_NODEJS = 'njs'
 const SYS_MODE_UNKNOWN = 'unknown'
 
 export const getRunningMode = (): string => {
-  if (window || navigator) return SYS_MODE_WEBBROWSER
-  if (process) return SYS_MODE_NODEJS
+  if (typeof window !== 'undefined' && typeof navigator !== 'undefined')
+    return SYS_MODE_WEBBROWSER
+  if (typeof process !== 'undefined') return SYS_MODE_NODEJS
   return SYS_MODE_UNKNOWN
 }
 
-const detectOS = () => [...UA.matchAll(/(windows|mac(intosh)?|ubuntu|debian|linux)/gi)][0][0]
-const detectArchitecture = () => {
-  const raw = [...UA.matchAll(/(x32|x64|x86_64)/gi)][0][0]
-  return ['x64', 'x86_64'].includes(raw) ? '64-bit' : '32-bit'
+const getNodeOS = () => require('node:os')
+
+const detectOS = (): string => {
+  if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator)
+    return [
+      ...globalThis.navigator.userAgent.matchAll(
+        /(windows|mac(intosh)?|ubuntu|debian|linux)/gi,
+      ),
+    ][0][0]
+  if (getRunningMode() === SYS_MODE_NODEJS) {
+    const os = process.platform
+    return os.charAt(0).toUpperCase() + os.substring(1)
+  }
 }
+
+const detectArchitecture = () => {
+  if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
+    const raw = [...navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi)][0][0]
+    return ['x64', 'x86_64'].includes(raw) ? '64-bit' : '32-bit'
+  }
+  if (getRunningMode() === SYS_MODE_NODEJS && process)
+    return ['x64', 'x86_64'].includes(process.arch) ? '64-bit' : '32-bit'
+}
+
 export const getHardwareDetails = () => {
-  const mode = getRunningMode()
   const details = {
     os: detectOS(),
     architecture: detectArchitecture(),
     cpus: undefined,
   }
-  if (mode === SYS_MODE_WEBBROWSER) {
+  if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
     details.cpus = navigator.hardwareConcurrency || undefined
+  }
+  if (getRunningMode() === SYS_MODE_NODEJS) {
+    const os = getNodeOS()
+    details.cpus = os.cpus().length
   }
   return details
 }

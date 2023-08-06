@@ -37,6 +37,7 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/jest": "^29.5.3",
     "@types/jsdom": "^20.0.1",
+    "@types/node": "^20.4.8",
     "es6-promise": "^4.2.8",
     "eslint": "^8.38.0",
     "eslint-plugin-prettier": "^5.0.0",
