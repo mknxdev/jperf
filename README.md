@@ -22,6 +22,7 @@ However, you can also use a package manager to install jTester to your project.
 ```sh
 npm i -D jtester-tool
 ```
+
 ```sh
 yarn add -D jtester-tool
 ```
@@ -93,25 +94,25 @@ All available configuration options are described below.
 ### autorun
 
 | type    | default |
-|---------|---------|
+| ------- | ------- |
 | boolean | true    |
 
 **Defines the global running strategy.**
 
 By default, code tests will be executed on-the-fly right away after they are defined through the `.test` method.  
-By setting this option to `false`, code tests will be simply stored and prepared for execution. In this case the execution must be triggered manually with the `.run` method.
+By setting this option to `false`, code tests will be simply stored and prepared for execution. In this case the execution must be triggered manually using the `.run` method.
 
 ### verbose
 
 | type    | default |
-|---------|---------|
+| ------- | ------- |
 | boolean | false   |
 
 **Displays advanced informations about system and code tests.**
 
 Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
 
-> **Note:** In browsers contexts, some system or hardware-related informations are based on browser properties that are not 100% reliable (typically `User-Agent`) because they can be changed by the user. They are only used for informational purposes.
+> **:warning: Note:** Especially in browsers contexts, system or hardware-related informations are mostly based on properties that can be user-modified or are experimental features. They are only presented for testing and informational purposes.
 
 ## Public API
 
