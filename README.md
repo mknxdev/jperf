@@ -9,7 +9,7 @@ jTester is a lightweight JavaScript code tester utility for the browser and Node
 As this tool will often be used only temporary for testing purposes, the quickest way to add it to your codebase is by using a CDN-based script (which can be easily removed after testing).
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/jtester@1.0.0-beta.1/dist/jtester.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jtester-tool@1.0.0-beta.4/dist/jtester.min.js"></script>
 ```
 
 ### Package manager
@@ -47,7 +47,7 @@ Each call of the jTester function returns a new `JTester` instance on which the 
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-JTester()
+jTester()
   .test(() => {
     testData.sort()
   })
@@ -60,7 +60,7 @@ Multiple tests can be executed at oncde by chaining the `.test` method multiple 
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-JTester()
+jTester()
   .test(() => {
     testData.sort()
   })
