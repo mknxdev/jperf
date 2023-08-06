@@ -126,8 +126,8 @@ Note: All methods that return a `JTester` object can be chained during calls.
 
 **Defines a performance test task.**
 
-This method accepts a function as only argument which be internally called and analysed.  
-Each call to this method will automatically trigger the `testFn` function execution unless the `autorun` configuration is set to `false`.
+This method accepts a function as only argument which is internally executed and analysed.  
+Each call to this method will automatically trigger the corresponding `testFn` function execution unless `autorun` configuration option is set to `false`.
 
 ### `.run(): JTester`
 
