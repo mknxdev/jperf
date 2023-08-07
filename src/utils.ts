@@ -11,17 +11,22 @@ export const d = (millis: number) => {
     const mn: number = Math.trunc(millis / MN_DIVIDER)
     const remainingS = millis % MN_DIVIDER
     const s: number = remainingS / S_DIVIDER
-    return `${mn}mn ${s}s`
+    let fmt = `${mn}mn`
+    if (s) fmt += ` ${s}s`
+    return fmt
   }
   const hr: number = Math.trunc(millis / HR_DIVIDER)
   const remainingMn = millis % HR_DIVIDER
   const mn: number = Math.trunc(remainingMn / MN_DIVIDER)
   const remainingS = remainingMn % MN_DIVIDER
   const s: number = remainingS / S_DIVIDER
-  return `${hr}hr ${mn}mn ${s}s`
+  let fmt = `${hr}hr`
+  if (mn) fmt += ` ${mn}mn`
+  if (s) fmt += ` ${s}s`
+  return fmt
 }
 
-const size = (nb: number) => {
+export const size = (nb: number) => {
   const units = ['kB', 'MB', 'GB']
   return units.reduce(
     (s, unit) => {
