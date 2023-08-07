@@ -1,5 +1,10 @@
 import { test, expect } from '@jest/globals'
-import { d, size } from '@src/utils'
+import { SYS_MODE_NODEJS, SYS_MODE_WEBBROWSER } from '@src/constants'
+import { d, size, getRunningMode } from '@src/utils'
+
+// Object.defineProperty(navigator, 'userAgent', () => {
+
+// })
 
 describe('utils', () => {
   test('d', () => {
@@ -18,5 +23,16 @@ describe('utils', () => {
     expect(size(1024)).toEqual({ value: 1, unit: 'kB' })
     expect(size(1024 * 1024)).toEqual({ value: 1, unit: 'MB' })
     expect(size(1024 * 1024 * 1024)).toEqual({ value: 1, unit: 'GB' })
+  })
+
+  test('getRunningMode', () => {
+    expect(getRunningMode()).toBe(SYS_MODE_WEBBROWSER)
+    const tmpWindow = { ...global.window }
+    const tmpNavigator = { ...global.navigator }
+    delete global.window
+    delete global.navigator
+    expect(getRunningMode()).toBe(SYS_MODE_NODEJS)
+    global.window = tmpWindow
+    global.navigator = tmpNavigator
   })
 })

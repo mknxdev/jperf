@@ -1,3 +1,9 @@
+import {
+  SYS_MODE_NODEJS,
+  SYS_MODE_WEBBROWSER,
+  SYS_MODE_UNKNOWN,
+} from './constants'
+
 // Numbers
 
 const S_DIVIDER = 1000
@@ -53,26 +59,27 @@ type HWDetails = {
   cpus: number | string
   memory: string
 }
-const SYS_MODE_WEBBROWSER = 'wb'
-const SYS_MODE_NODEJS = 'njs'
-const SYS_MODE_UNKNOWN = 'unknown'
 
 export const getRunningMode = (): string => {
   if (typeof window !== 'undefined' && typeof navigator !== 'undefined')
     return SYS_MODE_WEBBROWSER
-  if (typeof process !== 'undefined') return SYS_MODE_NODEJS
+  if (typeof window === 'undefined' || typeof process !== 'undefined')
+    return SYS_MODE_NODEJS
   return SYS_MODE_UNKNOWN
 }
 
 const getNodeOS = () => require('node:os')
 
 const detectOS = (): string => {
-  if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator)
-    return [
+  if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
+    const raw = [
       ...globalThis.navigator.userAgent.matchAll(
         /(windows|mac(intosh)?|ubuntu|debian|linux)/gi,
       ),
-    ][0][0]
+    ]
+    const match = raw.length ? raw[0][0] : undefined
+    return match
+  }
   if (getRunningMode() === SYS_MODE_NODEJS) {
     const os = process.platform
     return os.charAt(0).toUpperCase() + os.substring(1)
@@ -81,8 +88,11 @@ const detectOS = (): string => {
 
 const detectArchitecture = () => {
   if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
-    const raw = [...navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi)][0][0]
-    return ['x64', 'x86_64'].includes(raw) ? '64-bit' : '32-bit'
+    const raw = [
+      ...globalThis.navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi),
+    ]
+    const match = raw.length ? raw[0][0] : undefined
+    return ['x64', 'x86_64'].includes(match) ? '64-bit' : '32-bit'
   }
   if (getRunningMode() === SYS_MODE_NODEJS && process)
     return ['x64', 'x86_64'].includes(process.arch) ? '64-bit' : '32-bit'
