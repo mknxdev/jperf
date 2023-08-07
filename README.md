@@ -1,6 +1,6 @@
 # <div align="center">jTester</div>
 
-jTester is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to test arbitrary code and expose related performance informations.
+jTester is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
 
 ## Installation
 
@@ -29,10 +29,10 @@ yarn add -D jtester-tool
 
 ### Usage
 
-When used as an IIFE (e.g. `<script>` tags), a `jTester` global function is exposed in the global context and can be used directly.
+When used as an IIFE (e.g. `<script>` tags), a `jtester` function is exposed in the global context and can be used directly.
 
 ```js
-jTester().test(/* ... */)
+jtester().test(/* ... */)
 ```
 
 The package can also be imported using CommonJS or ESM syntaxes.
@@ -51,7 +51,7 @@ Each call of the jTester function returns a new `JTester` instance on which the 
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-jTester()
+jtester()
   .test(() => {
     testData.sort()
   })
@@ -64,7 +64,7 @@ Multiple tests can be executed at once by chaining the `.test` method multiple t
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-jTester()
+jtester()
   .test(() => {
     testData.sort()
   })
@@ -84,7 +84,7 @@ Note that only the inner code of the `.test`-provided function will be analysed,
 jTester behavior can be customized by passing a configuration object to the `jTester` function.
 
 ```js
-jTester({
+jtester({
   // configuration options...
 })
 ```

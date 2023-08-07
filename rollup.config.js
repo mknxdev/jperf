@@ -3,8 +3,6 @@ import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 import json from '@rollup/plugin-json'
 
-console.log(process.env.MODE);
-
 // INPUT
 const input = 'src/index.ts'
 
@@ -12,12 +10,12 @@ const input = 'src/index.ts'
 const output = []
 if (process.env.MODE === 'production') {
   output.push({
-    name: 'jTester',
+    name: 'jtester',
     file: 'dist/jtester.js',
     format: 'umd',
   })
   output.push({
-    name: 'jTester',
+    name: 'jtester',
     file: 'dist/jtester.min.js',
     format: 'umd',
     plugins: [
@@ -41,7 +39,7 @@ if (process.env.MODE === 'production') {
   })
 } else {
   output.push({
-    name: 'jTester',
+    name: 'jtester',
     file: 'public/dist/jtester.js',
     format: 'umd',
   })
