@@ -74,11 +74,17 @@ const detectOS = (): string => {
   if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
     const raw = [
       ...globalThis.navigator.userAgent.matchAll(
-        /(windows|mac(intosh)?|ubuntu|debian|linux)/gi,
+        /(windows|mac(intosh)?|ubuntu|debian|linux|cros)/gi,
       ),
     ]
     const match = raw.length ? raw[0][0] : undefined
-    return match
+    return {
+      windows: 'Windows',
+      mac: 'Mac',
+      macintosh: 'Mac',
+      linux: 'Linux',
+      'cros': 'Chrome OS',
+    }[match]
   }
   if (getRunningMode() === SYS_MODE_NODEJS) {
     const os = process.platform
@@ -92,7 +98,7 @@ const detectArchitecture = () => {
       ...globalThis.navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi),
     ]
     const match = raw.length ? raw[0][0] : undefined
-    return ['x64', 'x86_64'].includes(match) ? '64-bit' : '32-bit'
+    return ['x64', 'x86_64', 'Mac'].includes(match) ? '64-bit' : '32-bit'
   }
   if (getRunningMode() === SYS_MODE_NODEJS && process)
     return ['x64', 'x86_64'].includes(process.arch) ? '64-bit' : '32-bit'
