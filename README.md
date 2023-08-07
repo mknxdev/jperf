@@ -12,7 +12,7 @@ An ESM-specific bundle is also available for use in modern projects.
 As this tool will often be used only temporary for testing purposes, the quickest way to add it to your codebase is by using a CDN-based script (which can be easily removed after testing).
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/jtester-tool@1.0.0-beta.4/dist/jtester.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jtester-tool@latest/dist/jtester.min.js"></script>
 ```
 
 ### Package manager
