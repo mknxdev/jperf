@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0]
+
 ### Added
 
 - `.log` alias function for `.showAnalysis`
+- unit tests for whole pkg (60% coverage actually) - relatively stable
 
 ## [1.0.0-beta.5] - 2023-08-06
 
