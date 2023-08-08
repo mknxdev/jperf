@@ -2,6 +2,16 @@
 
 jTester is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
 
+## Summary
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Public API](#public-api)
+  - [Methods](#methods)
+  - [Properties](#properties)
+- [Licensing](#licensing)
+
 ## Installation
 
 The main package's bundle uses the UMD format, meaning that it can be installed in multiple ways.  
@@ -27,7 +37,7 @@ npm i -D jtester-tool
 yarn add -D jtester-tool
 ```
 
-### Usage
+## Usage
 
 When used as an IIFE (e.g. `<script>` tags), a `jtester` function is exposed in the global context and can be used directly.
 
@@ -81,12 +91,11 @@ Note that only the inner code of the `.test`-provided function will be analysed,
 
 ## Configuration
 
-jTester behavior can be customized by passing a configuration object to the `jTester` function.
+jTester can be customized by passing to it a configuration object.
 
+<!-- prettier-ignore -->
 ```js
-jtester({
-  // configuration options...
-})
+jtester({ /* options */ })
 ```
 
 All available options are described below.
