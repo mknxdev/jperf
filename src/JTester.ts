@@ -1,11 +1,12 @@
 import JTLogger from './JTLogger'
 import { Config } from './types'
-import { PKG_VERSION } from './constants'
+import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
+import { validTest } from './validator'
 
-type TestData = { name: string; fn: Function; time: number, processed: boolean }
+type TestData = { name: string; fn: Function; time: number; processed: boolean }
 type TestAnalysis = {
-  version: string,
+  version: string
   tests: { runtime: number }[]
 }
 
@@ -23,10 +24,10 @@ export default class JTester {
   _getFormattedAnalysis(): TestAnalysis {
     return {
       version: PKG_VERSION,
-      tests: this._testData.map(test => ({
+      tests: this._testData.map((test) => ({
         name: test.name,
-        runtime: test.time
-      }))
+        runtime: test.time,
+      })),
     }
   }
   _formatAnalysisAsJSON() {
@@ -53,16 +54,23 @@ export default class JTester {
     `.trim()
     return output
   }
-  test(fn: Function = undefined): JTester {
-    const nb: number = this._testData.length
-    const test: TestData = {
-      fn,
-      name: `Test #${nb + 1}`,
-      time: 0,
-      processed: false,
+  test(nameOrFn: string | Function, fn?: Function): JTester {
+    if (validTest(nameOrFn, fn)) {
+      const func = typeof nameOrFn === 'function' ? nameOrFn : fn
+      const nb: number = this._testData.length
+      const name =
+        typeof nameOrFn === 'function'
+          ? `${ANONYMOUS_TEST_NAME} #${nb}`
+          : nameOrFn
+      const test: TestData = {
+        fn: func,
+        name,
+        time: 0,
+        processed: false,
+      }
+      this._testData.push(test)
+      if (this._config.autorun) this.run()
     }
-    this._testData.push(test)
-    if (this._config.autorun) this.run()
     return this
   }
   run(): JTester {
@@ -80,8 +88,7 @@ export default class JTester {
   }
   showAnalysis(): JTester {
     for (const [i, test] of this._testData.entries())
-      if (test.processed)
-        this._logger.addTest(test.name, test.time, test.fn)
+      if (test.processed) this._logger.addTest(test.name, test.time, test.fn)
     this._logger.log()
     return this
   }
