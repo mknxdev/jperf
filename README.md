@@ -89,26 +89,26 @@ jtester({
 })
 ```
 
-All available configuration options are described below.
+All available options are described below.
 
-### autorun
+### `autorun`
 
 | type    | default |
 | ------- | ------- |
 | boolean | true    |
 
-**Defines the global running strategy.**
+**_Defines the global running strategy._**
 
 By default, code tests will be executed on-the-fly right away after they are defined through the `.test` method.  
-By setting this option to `false`, code tests will be simply stored and prepared for execution. In this case the execution must be triggered manually using the `.run` method.
+Setting this option to `false` will prevent code tests to be executed directly. The execution must be triggered manually using the `.run` method in that case.
 
-### verbose
+### `verbose`
 
 | type    | default |
 | ------- | ------- |
 | boolean | false   |
 
-**Displays advanced informations about system and code tests.**
+**_Displays advanced informations about system and code tests._**
 
 Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
 
@@ -122,39 +122,58 @@ Here is the full list of the public properties and methods exposed by the jTeste
 
 Note: All methods that return a `JTester` object can be chained during calls.
 
-### `.test(testFn: Function): JTester`
+### `.test`
 
-**Defines a performance test task.**
+**Signature** `.test(nameOrFn: string | Function, fn?: Function): JTester`
+
+**Params**
+
+- `nameOrFn` (required): Defines the test name in case of `string` given, or the code test otherwise (`function`).
+- `fn` (optional): Required to define the code test if first argument is of type `string`.
+
+**_Defines a test task._**
 
 This method accepts a function as only argument which is internally executed and analysed.  
 Each call to this method will automatically trigger the corresponding `testFn` function execution unless `autorun` configuration option is set to `false`.
 
-### `.run(): JTester`
+### `.run`
 
-**Runs previously defined performance test tasks.**
+**Signature** `.run(): JTester`
+
+**_Runs previously defined test tasks._**
 
 This method manually triggers tasks' execution. It is not needed if `autorun` configuration option is set to `true`.
 It is chainable with other instance methods.
 
-### `.showAnalysis(): JTester`
+### `.showAnalysis`
 
-**Logs testing results.**
+**Signature** `.showAnalysis(): JTester`
+
+**_Logs testing results._**
 
 Method used to log performance results of previous test tasks in the console.  
 It is chainable with other instance methods.
 
-### `.log(): JTester`
+### `.log`
 
-**Alias for `.showAnalysis`.**
+**Signature** `.log(): JTester`
 
-### `.getAnalysis(format: string = 'js'): Object | string`
+**_Alias of `.showAnalysis`._**
 
-**Get analysis logs data.**
+### `.getAnalysis`
 
-Use this method to retrieve analysis using various standard formats.  
-It accepts one `format` argument which must be one of `js` (default), `json` or `xml`.
+**Signature** `.getAnalysis(format: string = 'js'): Object | string`
 
-Here is the list of analysis properties returned by this method (this is applicable to all formats).
+**Params**
+
+- `format` (optional): Defines output format for analysis data. Defaults to `js`.
+
+**_Get analysis logs data._**
+
+Use this method to retrieve analysis data using various formats.  
+Accepts one `format` argument which must be one of: `js`, `json` or `xml`.
+
+Here is the list of analysis properties returned by this method (applicable to all formats).
 
 ```js
 {
