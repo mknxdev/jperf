@@ -77,13 +77,13 @@ const detectOS = (): string => {
         /(windows|mac(intosh)?|ubuntu|debian|linux|cros)/gi,
       ),
     ]
-    const match = raw.length ? raw[0][0] : undefined
+    const match = raw.length ? raw[0][0].toLowerCase() : undefined
     return {
       windows: 'Windows',
       mac: 'Mac',
       macintosh: 'Mac',
       linux: 'Linux',
-      'cros': 'Chrome OS',
+      cros: 'Chrome OS',
     }[match]
   }
   if (getRunningMode() === SYS_MODE_NODEJS) {
@@ -97,7 +97,7 @@ const detectArchitecture = () => {
     const raw = [
       ...globalThis.navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi),
     ]
-    const match = raw.length ? raw[0][0] : undefined
+    const match = raw.length ? raw[0][0].toLowerCase() : undefined
     return ['x64', 'x86_64', 'Mac'].includes(match) ? '64-bit' : '32-bit'
   }
   if (getRunningMode() === SYS_MODE_NODEJS && process)
