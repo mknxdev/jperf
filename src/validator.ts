@@ -1,11 +1,11 @@
 import { UserConfig } from './types'
 
-export const validConfig = (config: UserConfig): boolean => {
-  if (!config) return true
+export const validConfig = (config?: UserConfig): boolean => {
+  if (config === undefined) return true
   let error: string
   try {
     // config
-    if (config && typeof config !== 'object')
+    if (typeof config !== 'object')
       error = `Config must be an object.`
     // config.autorun
     if (config.autorun && typeof config.autorun !== 'boolean')
@@ -33,7 +33,7 @@ export const validTest = (
       error = `First argument of '.test' method must be a string or function.`
     // fn
     if (nameOrFn && typeof nameOrFn === 'string') {
-      if (!fn)
+      if (!fn || typeof fn !== 'function')
         error = `A function is required for '.test' method as second argument.`
     }
     if (error) throw new Error(`jTester: ${error}`)

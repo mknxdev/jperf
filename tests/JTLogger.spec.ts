@@ -3,14 +3,7 @@ import JTLogger from '@src/JTLogger'
 
 let jtlogger: JTLogger
 
-beforeEach(() => {
-  console.log = jest.fn((msg) => msg)
-})
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
-describe('JTester', () => {
+describe('JTLogger', () => {
   test('.log', () => {
     jtlogger = new JTLogger(true, {})
     jtlogger.log()

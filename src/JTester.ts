@@ -1,14 +1,9 @@
 import JTLogger from './JTLogger'
-import { Config } from './types'
+import { TestData, TestAnalysis, Config } from './types'
 import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
 import { validTest } from './validator'
 
-type TestData = { name: string; fn: Function; time: number; processed: boolean }
-type TestAnalysis = {
-  version: string
-  tests: { runtime: number }[]
-}
 
 export default class JTester {
   _mode: string = getRunningMode()
@@ -52,6 +47,11 @@ export default class JTester {
         </tests>
       </analysis>
     `.trim()
+    // const matches = output.matchAll()
+    // output.replace(/>[ \r\n]+</gi, (m, p) => {
+    //   console.log(m, p);
+    //   return 
+    // })
     return output
   }
   test(nameOrFn: string | Function, fn?: Function): JTester {
@@ -70,8 +70,8 @@ export default class JTester {
       }
       this._testData.push(test)
       if (this._config.autorun) this.run()
+      return this
     }
-    return this
   }
   run(): JTester {
     this._testData = this._testData.map((test) => {
