@@ -4,7 +4,6 @@ import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
 import { validTest } from './validator'
 
-
 export default class JTester {
   _mode: string = getRunningMode()
   _hwDetails = getHardwareDetails()
@@ -47,11 +46,7 @@ export default class JTester {
         </tests>
       </analysis>
     `.trim()
-    // const matches = output.matchAll()
-    // output.replace(/>[ \r\n]+</gi, (m, p) => {
-    //   console.log(m, p);
-    //   return 
-    // })
+    output = output.replace(/>[ \r\n]*/gi, '>').replace(/[ \r\n]*</gi, '<')
     return output
   }
   test(nameOrFn: string | Function, fn?: Function): JTester {
@@ -87,7 +82,7 @@ export default class JTester {
     return this
   }
   showAnalysis(): JTester {
-    for (const [i, test] of this._testData.entries())
+    for (const [_, test] of this._testData.entries())
       if (test.processed) this._logger.addTest(test.name, test.time, test.fn)
     this._logger.log()
     return this
