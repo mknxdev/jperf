@@ -87,8 +87,6 @@ jtester()
   .showAnalysis()
 ```
 
-Note that only the inner code of the `.test`-provided function will be analysed, which means that you need to isolate the tested code in this function to get accurate running informations.
-
 ## Configuration
 
 jTester can be customized by passing to it a configuration object.
