@@ -55,7 +55,7 @@ const jtester = require('jtester-tool') // CJS
 jtester().test(/* ... */)
 ```
 
-Each call of the jTester function returns a new `JTester` instance on which the `.test` method can be called to test inner code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to the `jtester` function returns a new `JTester` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const testData = []
