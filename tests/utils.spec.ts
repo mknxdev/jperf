@@ -88,8 +88,6 @@ describe('utils', () => {
     // Object.defineProperty(navigator, 'userAgent', { value: UA_CROS_32 })
     // expect(getHardwareDetails().os).toBe('Chrome OS')
     // expect(getHardwareDetails().architecture).toBe('32-bit')
-
-    console.log(window.navigator.userAgent)
     // Hardware
     // Object.defineProperty(navigator, 'memory', {
     //   value: { jsHeapSizeLimit: 4294705152 },
