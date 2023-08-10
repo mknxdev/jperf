@@ -1,20 +1,19 @@
-import JTLogger from './JTLogger'
+import JPLogger from './JPLogger'
 import { TestData, TestAnalysis, Config } from './types'
 import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
 import { validTest } from './validator'
 
-
-export default class JTester {
+export default class JPerf {
   _mode: string = getRunningMode()
   _hwDetails = getHardwareDetails()
   _config: Config
   _testData: TestData[] = []
-  _logger: JTLogger
+  _logger: JPLogger
 
   constructor(config: Config) {
     this._config = config
-    this._logger = new JTLogger(config.verbose, this._hwDetails)
+    this._logger = new JPLogger(config.verbose, this._hwDetails)
   }
   _getFormattedAnalysis(): TestAnalysis {
     return {
@@ -50,11 +49,11 @@ export default class JTester {
     // const matches = output.matchAll()
     // output.replace(/>[ \r\n]+</gi, (m, p) => {
     //   console.log(m, p);
-    //   return 
+    //   return
     // })
     return output
   }
-  test(nameOrFn: string | Function, fn?: Function): JTester {
+  test(nameOrFn: string | Function, fn?: Function): JPerf {
     if (validTest(nameOrFn, fn)) {
       const func = typeof nameOrFn === 'function' ? nameOrFn : fn
       const nb: number = this._testData.length
@@ -73,7 +72,7 @@ export default class JTester {
       return this
     }
   }
-  run(): JTester {
+  run(): JPerf {
     this._testData = this._testData.map((test) => {
       if (!test.processed) {
         const start = new Date().getTime()
@@ -86,13 +85,13 @@ export default class JTester {
     })
     return this
   }
-  showAnalysis(): JTester {
+  showAnalysis(): JPerf {
     for (const [i, test] of this._testData.entries())
       if (test.processed) this._logger.addTest(test.name, test.time, test.fn)
     this._logger.log()
     return this
   }
-  log(): JTester {
+  log(): JPerf {
     return this.showAnalysis()
   }
   getAnalysis(format = 'js'): TestAnalysis | string {

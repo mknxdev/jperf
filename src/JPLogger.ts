@@ -1,7 +1,7 @@
 import { d } from './utils'
 import { PKG_VERSION } from './constants'
 
-export default class JTLogger {
+export default class JPLogger {
   _verboseMode: boolean = false
   _hwDetails = undefined
   _tests = []
@@ -38,7 +38,7 @@ export default class JTLogger {
     this._tests.push({ id, time })
   }
   log(): void {
-    const brand = `JTester v${PKG_VERSION}`
+    const brand = `JPerf v${PKG_VERSION}`
     let output = `${brand}\r\n`
     if (this._verboseMode) {
       for (let i = 0; i < brand.length; i++) output += '-'

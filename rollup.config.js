@@ -10,13 +10,13 @@ const input = 'src/index.ts'
 const output = []
 if (process.env.MODE === 'production') {
   output.push({
-    name: 'jtester',
-    file: 'dist/jtester.js',
+    name: 'jperf',
+    file: 'dist/jperf.js',
     format: 'umd',
   })
   output.push({
-    name: 'jtester',
-    file: 'dist/jtester.min.js',
+    name: 'jperf',
+    file: 'dist/jperf.min.js',
     format: 'umd',
     plugins: [
       terser({
@@ -25,11 +25,11 @@ if (process.env.MODE === 'production') {
     ],
   })
   output.push({
-    file: 'dist/jtester.esm.js',
+    file: 'dist/jperf.esm.js',
     format: 'es',
   })
   output.push({
-    file: 'dist/jtester.esm.min.js',
+    file: 'dist/jperf.esm.min.js',
     format: 'es',
     plugins: [
       terser({
@@ -39,8 +39,8 @@ if (process.env.MODE === 'production') {
   })
 } else {
   output.push({
-    name: 'jtester',
-    file: 'public/dist/jtester.js',
+    name: 'jperf',
+    file: 'public/dist/jperf.js',
     format: 'umd',
   })
 }

@@ -1,5 +1,5 @@
 import { UserConfig, Config } from './types'
-import JTester from './JTester'
+import JPerf from './JPerf'
 import { validConfig } from './validator'
 
 const fillConfigDefaults = (config: UserConfig): Config => {
@@ -12,6 +12,6 @@ const fillConfigDefaults = (config: UserConfig): Config => {
 
 export default function (config: UserConfig = {}) {
   if (validConfig(config)) {
-    return new JTester(fillConfigDefaults(config))
+    return new JPerf(fillConfigDefaults(config))
   }
 }

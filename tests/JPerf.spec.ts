@@ -1,30 +1,33 @@
 import { test, expect } from '@jest/globals'
 import { TestAnalysis } from '@src/types'
 import { PKG_VERSION } from '@src/constants'
-import JTester from '@src/JTester'
+import JPerf from '@src/JPerf'
 
-
-let jtester: JTester
+let jtester: JPerf
 
 afterEach(() => {
   jtester = undefined
 })
 
-describe('JTester', () => {
+describe('JPerf', () => {
   test('.test', () => {
-    jtester = new JTester({ autorun: true, verbose: false })
-    expect(jtester.test(() => { const foo = 'bar' })).toEqual(jtester)
+    jtester = new JPerf({ autorun: true, verbose: false })
+    expect(
+      jtester.test(() => {
+        const foo = 'bar'
+      }),
+    ).toEqual(jtester)
   })
   test('.run', () => {
-    jtester = new JTester({ autorun: true, verbose: false })
+    jtester = new JPerf({ autorun: true, verbose: false })
     expect(jtester.run()).toEqual(jtester)
   })
   test('.showAnalysis', () => {
-    jtester = new JTester({ autorun: true, verbose: false })
+    jtester = new JPerf({ autorun: true, verbose: false })
     expect(jtester.showAnalysis()).toEqual(jtester)
   })
   test('.getAnalysis', () => {
-    jtester = new JTester({ autorun: true, verbose: false })
+    jtester = new JPerf({ autorun: true, verbose: false })
     // JS
     const jsDefault = jtester.getAnalysis() as TestAnalysis
     const js = jtester.getAnalysis('js') as TestAnalysis

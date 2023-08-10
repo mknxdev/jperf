@@ -1,5 +1,5 @@
 {
-  "name": "jtester-tool",
+  "name": "jperf",
   "version": "1.1.0",
   "description": "Lightweight JavaScript code performance testing utility for web browsers and Node.js.",
   "keywords": [

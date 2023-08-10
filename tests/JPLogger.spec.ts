@@ -1,11 +1,11 @@
 import { test, expect } from '@jest/globals'
-import JTLogger from '@src/JTLogger'
+import JPLogger from '@src/JPLogger'
 
-let jtlogger: JTLogger
+let jtlogger: JPLogger
 
-describe('JTLogger', () => {
+describe('JPLogger', () => {
   test('.log', () => {
-    jtlogger = new JTLogger(true, {})
+    jtlogger = new JPLogger(true, {})
     jtlogger.log()
     expect(console.log).toHaveBeenCalledTimes(1)
   })
