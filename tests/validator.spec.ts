@@ -2,6 +2,20 @@ import { test, expect } from '@jest/globals'
 import { UserConfig } from '@src/types'
 import { validConfig, validTest } from '@src/validator'
 
+let consoleError = console.error
+let consoleErrorMock
+
+beforeAll(() => {
+  consoleErrorMock = jest.fn((_) => undefined)
+  console.error = consoleErrorMock
+})
+afterEach(() => {
+  consoleErrorMock.mockClear()
+})
+afterAll(() => {
+  consoleErrorMock.mockRestore()
+  console.error = consoleError
+})
 describe('utils', () => {
   test('validConfig', () => {
     // valid

@@ -65,7 +65,6 @@ export const getRunningMode = (): string => {
     return SYS_MODE_WEBBROWSER
   if (typeof window === 'undefined' || typeof process !== 'undefined')
     return SYS_MODE_NODEJS
-  return SYS_MODE_UNKNOWN
 }
 
 const getNodeOS = () => require('node:os')

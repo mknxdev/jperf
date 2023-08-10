@@ -6,10 +6,21 @@ import JPerf from '@src/JPerf'
 
 // const jtloggerMock = jest.mock('@src/JTLogger')
 
+let consoleLog = console.log
+let consoleLogMock
 let jperf: JPerf
 
+beforeAll(() => {
+  consoleLogMock = jest.fn((_) => undefined)
+  console.log = consoleLogMock
+})
 afterEach(() => {
+  consoleLogMock.mockClear()
   jperf = undefined
+})
+afterAll(() => {
+  consoleLogMock.mockRestore()
+  console.log = consoleLog
 })
 
 describe('JPerf', () => {
@@ -20,11 +31,17 @@ describe('JPerf', () => {
         const foo = 'bar'
       }),
     ).toEqual(jperf)
+    expect(
+      jperf.test('#test', () => {
+        const baz = 'foofoo'
+      }),
+    ).toEqual(jperf)
   })
   test('.run', () => {
     jperf = new JPerf({ autorun: true, verbose: false })
     expect(jperf.run()).toEqual(jperf)
   })
+
   test('.showAnalysis', () => {
     // Empty
     jperf = new JPerf({ autorun: true, verbose: false })
@@ -33,6 +50,7 @@ describe('JPerf', () => {
     jperf.test(() => {})
     jperf.showAnalysis()
   })
+
   test('.log', () => {
     // Empty
     jperf = new JPerf({ autorun: true, verbose: false })
@@ -41,6 +59,7 @@ describe('JPerf', () => {
     jperf.test(() => {})
     jperf.log()
   })
+
   test('.getAnalysis', () => {
     jperf = new JPerf({ autorun: true, verbose: false })
     // Empty
@@ -58,10 +77,10 @@ describe('JPerf', () => {
     const emptyJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(emptyJson).toEqual(emptyOutput)
     // - XML
-    const xmlEmpty = `
+    const emptyXml = `
       <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests></tests></analysis>
     `.trim()
-    expect(jperf.getAnalysis('xml')).toBe(xmlEmpty)
+    expect(jperf.getAnalysis('xml')).toBe(emptyXml)
     // 1 test
     jperf.test(() => {})
     // - JS
@@ -76,5 +95,9 @@ describe('JPerf', () => {
     }
     const oneTestJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(oneTestJson).toEqual(oneTestOutput)
+    const oneTestXml = `
+      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests><test><name>anonymous #0</name><runtime>0</runtime></test></tests></analysis>
+    `.trim()
+    expect(jperf.getAnalysis('xml')).toBe(oneTestXml)
   })
 })

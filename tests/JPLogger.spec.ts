@@ -6,7 +6,12 @@ let jtlogger: JPLogger
 describe('JPLogger', () => {
   test('.log', () => {
     jtlogger = new JPLogger(true, {})
+    let consoleLog = console.log
+    const consoleLogMock = jest.fn((_) => undefined)
+    console.log = consoleLogMock
     jtlogger.log()
     expect(console.log).toHaveBeenCalledTimes(1)
+    consoleLogMock.mockRestore()
+    console.log = consoleLog
   })
 })
