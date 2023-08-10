@@ -96,9 +96,10 @@ export default class JPerf {
     })
     return this
   }
-  tick(): void {
+  tick(testName?: string): void {
     if (!this._tickedTest.name) {
-      this._tickedTest.name = 'test'
+      const nb: number = this._testData.length
+      this._tickedTest.name = testName || `${ANONYMOUS_TEST_NAME} #${nb}`
       this._tickedTest.start = new Date().getTime()
     } else {
       this._tickedTest.end = new Date().getTime()
