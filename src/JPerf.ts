@@ -46,11 +46,7 @@ export default class JPerf {
         </tests>
       </analysis>
     `.trim()
-    // const matches = output.matchAll()
-    // output.replace(/>[ \r\n]+</gi, (m, p) => {
-    //   console.log(m, p);
-    //   return
-    // })
+    output = output.replace(/>[ \r\n]*/gi, '>').replace(/[ \r\n]*</gi, '<')
     return output
   }
   test(nameOrFn: string | Function, fn?: Function): JPerf {
@@ -86,7 +82,7 @@ export default class JPerf {
     return this
   }
   showAnalysis(): JPerf {
-    for (const [i, test] of this._testData.entries())
+    for (const [_, test] of this._testData.entries())
       if (test.processed) this._logger.addTest(test.name, test.time, test.fn)
     this._logger.log()
     return this

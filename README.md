@@ -55,20 +55,20 @@ const jtester = require('jtester-tool') // CJS
 jtester().test(/* ... */)
 ```
 
-Each call of the jTester function returns a new `JTester` instance on which the `.test` method can be called to test inner code.
+Each call to the `jtester` function returns a new `JTester` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
 jtester()
-  .test(() => {
+  .test('sort test', () => {
     testData.sort()
   })
   .showAnalysis()
 ```
 
-Multiple tests can be executed at once by chaining the `.test` method multiple times.
+Multiple tests can be executed at once by chaining `.test` method calls.
 
 ```js
 const testData = []
@@ -86,8 +86,6 @@ jtester()
   })
   .showAnalysis()
 ```
-
-Note that only the inner code of the `.test`-provided function will be analysed, which means that you need to isolate the tested code in this function to get accurate running informations.
 
 ## Configuration
 
@@ -129,7 +127,7 @@ Here is the full list of the public properties and methods exposed by the jTeste
 
 ### Methods
 
-Note: All methods that return a `JTester` object can be chained during calls.
+Note: All methods that return a `JTester` instance can be chained.
 
 ### `.test`
 
@@ -142,8 +140,8 @@ Note: All methods that return a `JTester` object can be chained during calls.
 
 **_Defines a test task._**
 
-This method accepts a function as only argument which is internally executed and analysed.  
-Each call to this method will automatically trigger the corresponding `testFn` function execution unless `autorun` configuration option is set to `false`.
+Accepts a function to execute for analysis, and optionally a name for identifying the test case (`anonymous` is used if no name is provided).  
+Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
 
 ### `.run`
 
@@ -151,8 +149,8 @@ Each call to this method will automatically trigger the corresponding `testFn` f
 
 **_Runs previously defined test tasks._**
 
-This method manually triggers tasks' execution. It is not needed if `autorun` configuration option is set to `true`.
-It is chainable with other instance methods.
+Manually triggers test tasks' execution.  
+It has no effect if `autorun` configuration option is set to `true`.
 
 ### `.showAnalysis`
 
@@ -160,8 +158,7 @@ It is chainable with other instance methods.
 
 **_Logs testing results._**
 
-Method used to log performance results of previous test tasks in the console.  
-It is chainable with other instance methods.
+Method used to log performance results of previous test tasks in the console.
 
 ### `.log`
 
