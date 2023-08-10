@@ -1,5 +1,6 @@
 import JPLogger from './JPLogger'
-import { TestData, TestAnalysis, Config } from './types'
+// import JPCodeParser from './JPCodeParser'
+import { TestData, TickTestData, TestAnalysis, Config } from './types'
 import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
 import { validTest } from './validator'
@@ -9,11 +10,25 @@ export default class JPerf {
   _hwDetails = getHardwareDetails()
   _config: Config
   _testData: TestData[] = []
+  _tickedTest: TickTestData = {
+    name: undefined,
+    start: undefined,
+    end: undefined,
+    time: undefined
+  }
   _logger: JPLogger
+  // _cParser: JPCodeParser
 
   constructor(config: Config) {
     this._config = config
     this._logger = new JPLogger(config.verbose, this._hwDetails)
+    // this._cParser = new JPCodeParser()
+  }
+  _resetTickedTest(): void {
+    this._tickedTest.name = undefined
+    this._tickedTest.start = undefined
+    this._tickedTest.end = undefined
+    this._tickedTest.time = undefined
   }
   _getFormattedAnalysis(): TestAnalysis {
     return {
@@ -80,6 +95,20 @@ export default class JPerf {
       return test
     })
     return this
+  }
+  tick(): void {
+    if (!this._tickedTest.name) {
+      this._tickedTest.name = 'test'
+      this._tickedTest.start = new Date().getTime()
+    } else {
+      this._tickedTest.end = new Date().getTime()
+      this._testData.push({
+        name: this._tickedTest.name,
+        time: this._tickedTest.end - this._tickedTest.start,
+        processed: true
+      })
+      this._resetTickedTest()
+    }
   }
   showAnalysis(): JPerf {
     for (const [_, test] of this._testData.entries())

@@ -1,4 +1,15 @@
-export type TestData = { name: string; fn: Function; time: number; processed: boolean }
+export type TestData = {
+  name: string
+  fn?: Function;
+  time: number;
+  processed: boolean
+}
+export type TickTestData = {
+  name: string
+  start: number
+  end: number
+  time: number
+}
 export type TestAnalysis = {
   version: string
   tests: { runtime: number }[]
