@@ -1,6 +1,6 @@
-# <div align="center">jTester</div>
+# <div align="center">JPerf</div>
 
-jTester is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
+JPerf is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
 
 ## Summary
 
@@ -22,46 +22,46 @@ An ESM-specific bundle is also available for use in modern projects.
 As this tool will often be used only temporary for testing purposes, the quickest way to add it to your codebase is by using a CDN-based script (which can be easily removed after testing).
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/jtester-tool@latest/dist/jtester.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jperf@latest/dist/jperf.min.js"></script>
 ```
 
 ### Package manager
 
-However, you can also use a package manager to install jTester to your project.
+However, you can also use a package manager to install JPerf to your project.
 
 ```sh
-npm i -D jtester-tool
+npm i -D jperf
 ```
 
 ```sh
-yarn add -D jtester-tool
+yarn add -D jperf
 ```
 
 ## Usage
 
-When used as an IIFE (e.g. `<script>` tags), a `jtester` function is exposed in the global context and can be used directly.
+When used as an IIFE (e.g. `<script>` tags), a `jperf` function is exposed in the global context and can be used directly.
 
 ```js
-jtester().test(/* ... */)
+jperf().test(/* ... */)
 ```
 
 The package can also be imported using CommonJS or ESM syntaxes.
 
 ```js
-import jtester from 'jtester-tool' // ESM
+import jperf from 'jperf' // ESM
 // or
-const jtester = require('jtester-tool') // CJS
+const jperf = require('jperf') // CJS
 
-jtester().test(/* ... */)
+jperf().test(/* ... */)
 ```
 
-Each call to the `jtester` function returns a new `JTester` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to the `jperf` function returns a new `JTester` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-jtester()
+jperf()
   .test('sort test', () => {
     testData.sort()
   })
@@ -74,7 +74,7 @@ Multiple tests can be executed at once by chaining `.test` method calls.
 const testData = []
 for (let i = 0; i < 10000; i++) testData.push(Math.random())
 
-jtester()
+jperf()
   .test(() => {
     testData.sort()
   })
@@ -89,11 +89,11 @@ jtester()
 
 ## Configuration
 
-jTester can be customized by passing to it a configuration object.
+JPerf can be customized by passing to it a configuration object.
 
 <!-- prettier-ignore -->
 ```js
-jtester({ /* options */ })
+jperf({ /* options */ })
 ```
 
 All available options are described below.
@@ -123,7 +123,7 @@ Set to `false` by default, it can be enabled to display advanced debug informati
 
 ## Public API
 
-Here is the full list of the public properties and methods exposed by the jTester instance.
+Here is the full list of the public properties and methods exposed by the JPerf instance.
 
 ### Methods
 
@@ -183,7 +183,7 @@ Here is the list of analysis properties returned by this method (applicable to a
 
 ```js
 {
-  version: "x.x.x", // jTester version
+  version: "x.x.x", // JPerf version
   tests: [
     {
       name: 'test', // test name

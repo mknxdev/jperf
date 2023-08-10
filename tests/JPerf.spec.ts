@@ -6,47 +6,47 @@ import JPerf from '@src/JPerf'
 
 // const jtloggerMock = jest.mock('@src/JTLogger')
 
-let jtester: JPerf
+let jperf: JPerf
 
 afterEach(() => {
-  jtester = undefined
+  jperf = undefined
 })
 
 describe('JPerf', () => {
   test('.test', () => {
-    jtester = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf({ autorun: true, verbose: false })
     expect(
-      jtester.test(() => {
+      jperf.test(() => {
         const foo = 'bar'
       }),
-    ).toEqual(jtester)
+    ).toEqual(jperf)
   })
   test('.run', () => {
-    jtester = new JPerf({ autorun: true, verbose: false })
-    expect(jtester.run()).toEqual(jtester)
+    jperf = new JPerf({ autorun: true, verbose: false })
+    expect(jperf.run()).toEqual(jperf)
   })
   test('.showAnalysis', () => {
     // Empty
-    jtester = new JPerf({ autorun: true, verbose: false })
-    expect(jtester.showAnalysis()).toEqual(jtester)
+    jperf = new JPerf({ autorun: true, verbose: false })
+    expect(jperf.showAnalysis()).toEqual(jperf)
     // 1 test
-    jtester.test(() => {})
-    jtester.showAnalysis()
+    jperf.test(() => {})
+    jperf.showAnalysis()
   })
   test('.log', () => {
     // Empty
-    jtester = new JPerf({ autorun: true, verbose: false })
-    expect(jtester.log()).toEqual(jtester)
+    jperf = new JPerf({ autorun: true, verbose: false })
+    expect(jperf.log()).toEqual(jperf)
     // 1 test
-    jtester.test(() => {})
-    jtester.log()
+    jperf.test(() => {})
+    jperf.log()
   })
   test('.getAnalysis', () => {
-    jtester = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf({ autorun: true, verbose: false })
     // Empty
     // - JS
-    const emptyJsDefault = jtester.getAnalysis() as TestAnalysis
-    const emptyJs = jtester.getAnalysis('js') as TestAnalysis
+    const emptyJsDefault = jperf.getAnalysis() as TestAnalysis
+    const emptyJs = jperf.getAnalysis('js') as TestAnalysis
     expect(emptyJsDefault).toHaveProperty('version')
     expect(emptyJsDefault).toHaveProperty('tests')
     expect(emptyJsDefault.tests.length).toBe(0)
@@ -55,18 +55,18 @@ describe('JPerf', () => {
     expect(emptyJs.tests.length).toBe(0)
     // - JSON
     const emptyOutput = { version: PKG_VERSION, tests: [] }
-    const emptyJson = JSON.parse(jtester.getAnalysis('json') as string)
+    const emptyJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(emptyJson).toEqual(emptyOutput)
     // - XML
     const xmlEmpty = `
       <?xml version="1.0" encoding="UTF-8" ?><analysis><version>1.1.0</version><tests></tests></analysis>
     `.trim()
-    expect(jtester.getAnalysis('xml')).toBe(xmlEmpty)
+    expect(jperf.getAnalysis('xml')).toBe(xmlEmpty)
     // 1 test
-    jtester.test(() => {})
+    jperf.test(() => {})
     // - JS
-    const oneTestJsDefault = jtester.getAnalysis() as TestAnalysis
-    const oneTestJs = jtester.getAnalysis('js') as TestAnalysis
+    const oneTestJsDefault = jperf.getAnalysis() as TestAnalysis
+    const oneTestJs = jperf.getAnalysis('js') as TestAnalysis
     expect(oneTestJsDefault.tests.length).toBe(1)
     expect(oneTestJs.tests.length).toBe(1)
     // - JSON
@@ -74,7 +74,7 @@ describe('JPerf', () => {
       version: PKG_VERSION,
       tests: [{ name: 'anonymous #0', runtime: 0 }],
     }
-    const oneTestJson = JSON.parse(jtester.getAnalysis('json') as string)
+    const oneTestJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(oneTestJson).toEqual(oneTestOutput)
   })
 })
