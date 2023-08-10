@@ -1,6 +1,6 @@
-# <div align="center">JPerf</div>
+# <div align="center">jPerf</div>
 
-JPerf is a lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
+jPerf is a modern & lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
 
 ## Summary
 
@@ -55,7 +55,7 @@ const jperf = require('jperf') // CJS
 jperf().test(/* ... */)
 ```
 
-Each call to the `jperf` function returns a new `JTester` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to the `jperf` function returns a new `JPerf` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const testData = []
@@ -127,11 +127,11 @@ Here is the full list of the public properties and methods exposed by the JPerf 
 
 ### Methods
 
-Note: All methods that return a `JTester` instance can be chained.
+Note: All methods that return a `JPerf` instance can be chained.
 
 ### `.test`
 
-**Signature** `.test(nameOrFn: string | Function, fn?: Function): JTester`
+**Signature** `.test(nameOrFn: string | Function, fn?: Function): JPerf`
 
 **Params**
 
@@ -145,7 +145,7 @@ Each call to this method will automatically trigger the corresponding function e
 
 ### `.run`
 
-**Signature** `.run(): JTester`
+**Signature** `.run(): JPerf`
 
 **_Runs previously defined test tasks._**
 
@@ -154,7 +154,7 @@ It has no effect if `autorun` configuration option is set to `true`.
 
 ### `.showAnalysis`
 
-**Signature** `.showAnalysis(): JTester`
+**Signature** `.showAnalysis(): JPerf`
 
 **_Logs testing results._**
 
@@ -162,7 +162,7 @@ Method used to log performance results of previous test tasks in the console.
 
 ### `.log`
 
-**Signature** `.log(): JTester`
+**Signature** `.log(): JPerf`
 
 **_Alias of `.showAnalysis`._**
 

@@ -1,7 +1,7 @@
 {
   "name": "jperf",
   "version": "1.1.0",
-  "description": "Lightweight JavaScript code performance testing utility for web browsers and Node.js.",
+  "description": "Modern & lightweight JavaScript code performance testing utility for web browsers and Node.js.",
   "keywords": [
     "nodejs",
     "javascript",
@@ -12,8 +12,8 @@
     "code",
     "runtime"
   ],
-  "main": "dist/jtester.min.js",
-  "module": "dist/jtester.esm/min.js",
+  "main": "dist/jperf.min.js",
+  "module": "dist/jperf.esm/min.js",
   "scripts": {
     "test": "jest -u -c jest.config.ts --verbose --collectCoverage",
     "ci-test": "jest -u -c jest.config.ts --collectCoverage",
@@ -23,14 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mekkanix/jtester.git"
+    "url": "git+https://github.com/mekkanix/jperf.git"
   },
   "author": "mekkanix <contact@mekkanix.net>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mekkanix/jtester/issues"
+    "url": "https://github.com/mekkanix/jperf/issues"
   },
-  "homepage": "https://github.com/mekkanix/jtester#readme",
+  "homepage": "https://github.com/mekkanix/jperf#readme",
   "devDependencies": {
     "@babel/core": "^7.20.7",
     "@babel/plugin-proposal-class-properties": "^7.18.6",
