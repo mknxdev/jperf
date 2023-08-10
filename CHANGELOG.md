@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-08-08
+
+### Changed
+
+- Package renaming: jTester - jPerf
+- Increased test cov to > 75%
+
 ## [1.1.0] - 2023-08-08
 
 ### Added
