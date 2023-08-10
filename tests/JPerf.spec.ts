@@ -59,7 +59,7 @@ describe('JPerf', () => {
     expect(emptyJson).toEqual(emptyOutput)
     // - XML
     const xmlEmpty = `
-      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>1.1.0</version><tests></tests></analysis>
+      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests></tests></analysis>
     `.trim()
     expect(jperf.getAnalysis('xml')).toBe(xmlEmpty)
     // 1 test
