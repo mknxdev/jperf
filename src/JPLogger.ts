@@ -38,7 +38,7 @@ export default class JPLogger {
     this._tests.push({ id, time })
   }
   log(): void {
-    const brand = `JPerf v${PKG_VERSION}`
+    const brand = `jPerf v${PKG_VERSION}`
     let output = `${brand}\r\n`
     if (this._verboseMode) {
       for (let i = 0; i < brand.length; i++) output += '-'

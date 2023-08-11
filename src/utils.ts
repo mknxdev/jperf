@@ -1,7 +1,6 @@
 import {
   SYS_MODE_NODEJS,
   SYS_MODE_WEBBROWSER,
-  SYS_MODE_UNKNOWN,
 } from './constants'
 
 // Numbers

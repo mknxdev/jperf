@@ -67,10 +67,11 @@ export default class JPerf {
   test(nameOrFn: string | Function, fn?: Function): JPerf {
     if (validTest(nameOrFn, fn)) {
       const func = typeof nameOrFn === 'function' ? nameOrFn : fn
-      const nb: number = this._testData.length
+      const { anonymousTestName, anonymousTestIndex } = this._config
+      const index: number = anonymousTestIndex + this._testData.length
       const name =
         typeof nameOrFn === 'function'
-          ? `${ANONYMOUS_TEST_NAME} #${nb}`
+          ? `${anonymousTestName} #${index}`
           : nameOrFn
       const test: TestData = {
         fn: func,
@@ -97,9 +98,11 @@ export default class JPerf {
     return this
   }
   tick(testName?: string): void {
-    if (!this._tickedTest.name) {
-      const nb: number = this._testData.length
-      this._tickedTest.name = testName || `${ANONYMOUS_TEST_NAME} #${nb}`
+    const { anonymousTestName, anonymousTestIndex } = this._config
+    const index: number = anonymousTestIndex + this._testData.length
+    const name = testName || `${anonymousTestName} #${index}`
+    if (!this._tickedTest.start) {
+      this._tickedTest.name = name
       this._tickedTest.start = new Date().getTime()
     } else {
       this._tickedTest.end = new Date().getTime()
@@ -108,7 +111,8 @@ export default class JPerf {
         time: this._tickedTest.end - this._tickedTest.start,
         processed: true
       })
-      this._resetTickedTest()
+      this._tickedTest.name = name
+      this._tickedTest.start = new Date().getTime()
     }
   }
   showAnalysis(): JPerf {

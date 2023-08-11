@@ -13,7 +13,13 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.verbose
     if (config.verbose && typeof config.verbose !== 'boolean')
       error = `'verbose' option must be a boolean.`
-    if (error) throw new Error(`jTester: ${error}`)
+    // config.anonymousTestName
+    if (config.anonymousTestName && typeof config.anonymousTestName !== 'string')
+      error = `'anonymousTestName' option must be a string.`
+    // config.anonymousTestIndex
+    if (config.anonymousTestIndex && typeof config.anonymousTestIndex !== 'number')
+      error = `'anonymousTestIndex' option must be a number.`
+    if (error) throw new Error(`jPerf: ${error}`)
     return true
   } catch (err) {
     console.error(err)
@@ -36,7 +42,7 @@ export const validTest = (
       if (!fn || typeof fn !== 'function')
         error = `A function is required for '.test' method as second argument.`
     }
-    if (error) throw new Error(`jTester: ${error}`)
+    if (error) throw new Error(`jPerf: ${error}`)
     return true
   } catch (err) {
     console.error(err)
