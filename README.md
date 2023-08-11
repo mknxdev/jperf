@@ -6,6 +6,7 @@ jPerf is a modern & lightweight JavaScript code tester utility for the browser a
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Alternative use: tick-based testing](#alternative-use-tick-based-testing)
 - [Configuration](#configuration)
 - [Public API](#public-api)
   - [Methods](#methods)
@@ -87,22 +88,49 @@ jperf()
   .showAnalysis()
 ```
 
+### Alternative use: tick-based testing
+
+An other way to test code is to use the jPerf's "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around your code with the `.tick` method.
+
+```js
+const testData = []
+for (let i = 0; i < 10000; i++) testData.push(Math.random())
+
+const jpf = jperf()
+jpf.tick()
+testData.sort()
+jpf.tick()
+jpf.showAnalysis()
+```
+
+This method accepts an optional `testName` argument (`string`) which is used to identify the corresponding test (only name first call).
+
+It is also possible to use this method multiple times to run multiple tests.
+
+```js
+// ...
+jpf.tick('sort test')
+testData.sort()
+jpf.tick('map test')
+testData.map((item) => Math.toFixed(3))
+jpf.tick()
+// ...
+```
+
 ## Configuration
 
-JPerf can be customized by passing to it a configuration object.
+JPerf can be customized by passing to it a configuration object (described below). All configuration options are optional.
 
 <!-- prettier-ignore -->
 ```js
 jperf({ /* options */ })
 ```
 
-All available options are described below.
-
 ### `autorun`
 
 | type    | default |
 | ------- | ------- |
-| boolean | true    |
+| boolean | `true`  |
 
 **_Defines the global running strategy._**
 
@@ -113,13 +141,31 @@ Setting this option to `false` will prevent code tests to be executed directly. 
 
 | type    | default |
 | ------- | ------- |
-| boolean | false   |
+| boolean | `false` |
 
 **_Displays advanced informations about system and code tests._**
 
 Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
 
-> **:warning: Note:** Especially in browsers contexts, system or hardware-related informations are mostly based on properties that can be user-modified or are experimental features. They are only presented for testing and informational purposes.
+### `anonymousTestName`
+
+| type   | default     |
+| ------ | ----------- |
+| string | `anonymous` |
+
+**_Name used for anonymous tests._**
+
+Allows to customize the name of code tests run without a name.
+
+### `anonymousTestIndex`
+
+| type   | default     |
+| ------ | ----------- |
+| string | `0`         |
+
+**_Starting index used for anonymous tests increment._**
+
+Allows to customize the starting index of the increment used for anonymous code tests.
 
 ## Public API
 
@@ -142,6 +188,19 @@ Note: All methods that return a `JPerf` instance can be chained.
 
 Accepts a function to execute for analysis, and optionally a name for identifying the test case (`anonymous` is used if no name is provided).  
 Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
+
+### `.tick`
+
+**Signature** `.tick(testName?: string): void`
+
+**Params**
+
+- `testName` (required): Defines the test name.
+
+**_Defines a test task._**
+
+Defines a key point to for a new code test (e.g. "Alternative use"), and optionally accepts a name for identifying the test case (`anonymous` is used if no name is provided).  
+This method is called indifferently for starting or ending code test: each new call to automatically stops analysis for previous running test.
 
 ### `.run`
 
