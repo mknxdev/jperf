@@ -1,10 +1,14 @@
 import { test, expect } from '@jest/globals'
-import { TestAnalysis } from '@src/types'
+import { Config, TestAnalysis } from '@src/types'
 import { PKG_VERSION } from '@src/constants'
 import JPerf from '@src/JPerf'
-// import JTLogger from '@src/JTLogger'
 
-// const jtloggerMock = jest.mock('@src/JTLogger')
+const defaultConfig: Config = {
+  autorun: true,
+  verbose: false,
+  anonymousTestName: 'anonymous',
+  anonymousTestIndex: 0,
+}
 
 let consoleLog = console.log
 let consoleLogMock
@@ -25,7 +29,7 @@ afterAll(() => {
 
 describe('JPerf', () => {
   test('.test', () => {
-    jperf = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf(defaultConfig)
     expect(
       jperf.test(() => {
         const foo = 'bar'
@@ -38,13 +42,13 @@ describe('JPerf', () => {
     ).toEqual(jperf)
   })
   test('.run', () => {
-    jperf = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf(defaultConfig)
     expect(jperf.run()).toEqual(jperf)
   })
 
   test('.showAnalysis', () => {
     // Empty
-    jperf = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf(defaultConfig)
     expect(jperf.showAnalysis()).toEqual(jperf)
     // 1 test
     jperf.test(() => {})
@@ -53,7 +57,7 @@ describe('JPerf', () => {
 
   test('.log', () => {
     // Empty
-    jperf = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf(defaultConfig)
     expect(jperf.log()).toEqual(jperf)
     // 1 test
     jperf.test(() => {})
@@ -61,7 +65,7 @@ describe('JPerf', () => {
   })
 
   test('.getAnalysis', () => {
-    jperf = new JPerf({ autorun: true, verbose: false })
+    jperf = new JPerf(defaultConfig)
     // Empty
     // - JS
     const emptyJsDefault = jperf.getAnalysis() as TestAnalysis
