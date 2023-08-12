@@ -1,5 +1,5 @@
 import JPLogger from './JPLogger'
-// import JPCodeParser from './JPCodeParser'
+import JPCodeParser from './JPCodeParser'
 import { TestData, TickTestData, TestAnalysis, Config } from './types'
 import { ANONYMOUS_TEST_NAME, PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
@@ -17,12 +17,12 @@ export default class JPerf {
     time: undefined
   }
   _logger: JPLogger
-  // _cParser: JPCodeParser
+  _cParser: JPCodeParser
 
   constructor(config: Config) {
     this._config = config
     this._logger = new JPLogger(config.verbose, this._hwDetails)
-    // this._cParser = new JPCodeParser()
+    this._cParser = new JPCodeParser()
   }
   _resetTickedTest(): void {
     this._tickedTest.name = undefined
@@ -89,6 +89,7 @@ export default class JPerf {
       if (!test.processed) {
         const start = new Date().getTime()
         test.fn()
+        this._cParser.extractLinesFromFn(test.fn)
         const end = new Date().getTime()
         test.time = end - start
         test.processed = true
