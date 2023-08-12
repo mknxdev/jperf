@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2023-08-12
+
+### Fixed
+
+- Readme instructions
+- Clearer name syntax for anonymous tests
+
 ## [1.3.0] - 2023-08-11
 
 ### Added
