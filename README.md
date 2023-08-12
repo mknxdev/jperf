@@ -28,7 +28,7 @@ As this tool will often be used only temporary for testing purposes, the quickes
 
 ### Package manager
 
-However, you can also use a package manager to install JPerf to your project.
+However, you can also use a package manager to install jPerf to your project.
 
 ```sh
 npm i -D jperf
@@ -103,7 +103,7 @@ jpf.tick()
 jpf.showAnalysis()
 ```
 
-This method accepts an optional `testName` argument (`string`) which is used to identify the corresponding test (only name first call).
+This method accepts an optional `testName` argument (`string`) which is used to identify the corresponding test.
 
 It is also possible to use this method multiple times to run multiple tests.
 
@@ -117,6 +117,8 @@ jpf.tick()
 // ...
 ```
 
+**Note:** Don't forget to add an end call to this method (after your last test), otherwise the latter will not be completed correctly.
+
 ## Configuration
 
 JPerf can be customized by passing to it a configuration object (described below). All configuration options are optional.
@@ -128,9 +130,9 @@ jperf({ /* options */ })
 
 ### `autorun`
 
-| type    | default |
-| ------- | ------- |
-| boolean | `true`  |
+**Type** `boolean`
+
+**Default** `true`
 
 **_Defines the global running strategy._**
 
@@ -139,9 +141,9 @@ Setting this option to `false` will prevent code tests to be executed directly. 
 
 ### `verbose`
 
-| type    | default |
-| ------- | ------- |
-| boolean | `false` |
+**Type** `boolean`
+
+**Default** `false`
 
 **_Displays advanced informations about system and code tests._**
 
@@ -149,9 +151,9 @@ Set to `false` by default, it can be enabled to display advanced debug informati
 
 ### `anonymousTestName`
 
-| type   | default     |
-| ------ | ----------- |
-| string | `anonymous` |
+**Type** `string`
+
+**Default** `(anonymous)`
 
 **_Name used for anonymous tests._**
 
@@ -159,11 +161,11 @@ Allows to customize the name of code tests run without a name.
 
 ### `anonymousTestIndex`
 
-| type   | default     |
-| ------ | ----------- |
-| string | `0`         |
+**Type** `number`
 
-**_Starting index used for anonymous tests increment._**
+**Default** `0`
+
+**_Start index used for anonymous tests increment._**
 
 Allows to customize the starting index of the increment used for anonymous code tests.
 
@@ -182,11 +184,11 @@ Note: All methods that return a `JPerf` instance can be chained.
 **Params**
 
 - `nameOrFn` (required): Defines the test name in case of `string` given, or the code test otherwise (`function`).
-- `fn` (optional): Required to define the code test if first argument is of type `string`.
+- `fn` (optional): Optional by default, it is required to define the code test if the first argument is of type `string`.
 
 **_Defines a test task._**
 
-Accepts a function to execute for analysis, and optionally a name for identifying the test case (`anonymous` is used if no name is provided).  
+Accepts a function to execute for analysis, and optionally a name for identifying the test case (`(anonymous)` is used if no name is provided).  
 Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
 
 ### `.tick`
@@ -195,11 +197,11 @@ Each call to this method will automatically trigger the corresponding function e
 
 **Params**
 
-- `testName` (required): Defines the test name.
+- `testName` (optional): Defines the test name.
 
 **_Defines a test task._**
 
-Defines a key point to for a new code test (e.g. "Alternative use"), and optionally accepts a name for identifying the test case (`anonymous` is used if no name is provided).  
+Defines a key point to for a new code test (e.g. "Alternative use"), and optionally accepts a name for identifying the test case (`(anonymous)` is used if no name is provided).  
 This method is called indifferently for starting or ending code test: each new call to automatically stops analysis for previous running test.
 
 ### `.run`
