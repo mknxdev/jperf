@@ -89,9 +89,9 @@ export default class JPerf {
       if (!test.processed) {
         const start = new Date().getTime()
         test.fn()
-        this._cParser.extractLinesFromFn(test.fn)
         const end = new Date().getTime()
         test.time = end - start
+        console.log(this._cParser.extractLinesFromFn(test.fn))
         test.processed = true
       }
       return test
