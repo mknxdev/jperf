@@ -34,8 +34,8 @@ export default class JPLogger {
       })
       .join('\r\n')
   }
-  addTest(id: string, time: number, fn: Function = undefined): void {
-    this._tests.push({ id, time })
+  addTest(id: string, time: number, fn: Function = undefined, steps = []): void {
+    this._tests.push({ id, time, steps })
   }
   log(): void {
     const brand = `jPerf v${PKG_VERSION}`
@@ -49,8 +49,14 @@ export default class JPLogger {
     }
     output += `\r\n+\r\n`
     if (this._tests.length)
-      for (const test of this._tests)
-        output += `| ${test.id}\r\n| > Runtime: ${d(test.time)}\r\n+\r\n`
+      for (const test of this._tests) {
+        output += `| ${test.id}\r\n|\r\n| > Runtime: ${d(test.time)}\r\n`
+        if (this._verboseMode) {
+          for (const [i, step] of test.steps.entries())
+            output += `|   - step ${i}: ${d(step.runtime)}\r\n`
+        }
+        output += `+\r\n`
+      }
     else output += `| No ran tests.\r\n+\r\n`
     output = this._formatOutput(output)
     console.log(output)

@@ -9,12 +9,12 @@ export default class JPerf {
   _hwDetails = getHardwareDetails()
   _config: Config
   _testData: TestData[] = []
+  _testDataSteps = {}
   _tickedTest: TickTestData = {
     name: undefined,
     start: undefined,
     end: undefined,
     time: undefined,
-    steps: []
   }
   _logger: JPLogger
 
@@ -22,14 +22,24 @@ export default class JPerf {
     this._config = config
     this._logger = new JPLogger(config.verbose, this._hwDetails)
   }
-  _defineTestStep = (): void => {
-    console.log('test: new step')
+  _defineTestStep = (testName: string): void => {
+    this._testDataSteps[testName].push(new Date())
   }
   _resetTickedTest(): void {
     this._tickedTest.name = undefined
     this._tickedTest.start = undefined
     this._tickedTest.end = undefined
     this._tickedTest.time = undefined
+  }
+  _getComputedTestSteps(testName: string) {
+    const test = this._testData.filter((t) => t.name === testName)[0]
+    const steps = this._testDataSteps[testName].map(s => s.getTime())
+    if (steps.length) steps.push(test.end)
+    return steps.map((s, i) => {
+      return {
+        runtime: !i ? s - test.start : s - steps[i - 1]
+      }
+    })
   }
   _getFormattedAnalysis(): TestAnalysis {
     return {
@@ -77,10 +87,13 @@ export default class JPerf {
       const test: TestData = {
         fn: func,
         name,
+        start: 0,
+        end: 0,
         time: 0,
         processed: false,
       }
       this._testData.push(test)
+      this._testDataSteps[name] = []
       if (this._config.autorun) this.run()
       return this
     }
@@ -89,8 +102,12 @@ export default class JPerf {
     this._testData = this._testData.map((test) => {
       if (!test.processed) {
         const start = new Date().getTime()
-        test.fn(this._defineTestStep)
+        test.fn(() => {
+          this._defineTestStep(test.name)
+        })
         const end = new Date().getTime()
+        test.start = start
+        test.end = end
         test.time = end - start
         test.processed = true
       }
@@ -109,6 +126,8 @@ export default class JPerf {
       this._tickedTest.end = new Date().getTime()
       this._testData.push({
         name: this._tickedTest.name,
+        start: this._tickedTest.start,
+        end: this._tickedTest.end,
         time: this._tickedTest.end - this._tickedTest.start,
         processed: true
       })
@@ -118,7 +137,17 @@ export default class JPerf {
   }
   showAnalysis(): JPerf {
     for (const [_, test] of this._testData.entries())
-      if (test.processed) this._logger.addTest(test.name, test.time, test.fn)
+      if (test.processed) {
+        if (this._config.verbose)
+          this._logger.addTest(
+            test.name,
+            test.time,
+            test.fn,
+            this._getComputedTestSteps(test.name)
+          )
+        else
+          this._logger.addTest(test.name, test.time, test.fn)
+      }
     this._logger.log()
     return this
   }

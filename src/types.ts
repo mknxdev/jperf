@@ -1,6 +1,8 @@
 export type TestData = {
   name: string
   fn?: Function;
+  start: number;
+  end: number;
   time: number;
   processed: boolean
 }
@@ -9,9 +11,6 @@ export type TickTestData = {
   start: number
   end: number
   time: number
-  steps: {
-    time: number
-  }[]
 }
 export type TestAnalysis = {
   version: string
