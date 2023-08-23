@@ -13,13 +13,17 @@ export default class JPerf {
     name: undefined,
     start: undefined,
     end: undefined,
-    time: undefined
+    time: undefined,
+    steps: []
   }
   _logger: JPLogger
 
   constructor(config: Config) {
     this._config = config
     this._logger = new JPLogger(config.verbose, this._hwDetails)
+  }
+  _defineTestStep = (): void => {
+    console.log('test: new step')
   }
   _resetTickedTest(): void {
     this._tickedTest.name = undefined
@@ -85,7 +89,7 @@ export default class JPerf {
     this._testData = this._testData.map((test) => {
       if (!test.processed) {
         const start = new Date().getTime()
-        test.fn()
+        test.fn(this._defineTestStep)
         const end = new Date().getTime()
         test.time = end - start
         test.processed = true
