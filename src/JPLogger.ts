@@ -41,9 +41,11 @@ export default class JPLogger {
     const brand = `jPerf v${PKG_VERSION}`
     let output = `${brand}\r\n`
     if (this._verboseMode) {
-      for (let i = 0; i < brand.length; i++) output += '-'
       const { os, architecture, cpus, memory } = this._hwDetails
-      output += `\r\n[System]\r\n> OS: ${os}\r\n> Architecture: ${architecture}\r\n> CPU cores: ${cpus}\r\n> Memory: ${memory}\r\n`
+      let details = ''
+      if (cpus) details += `, ${cpus} core${cpus > 1 ? 's' : ''}`
+      if (memory) details += `, ${memory}`
+      output += `[${os} ${architecture}${details}]`
     }
     output += `\r\n+\r\n`
     if (this._tests.length)
