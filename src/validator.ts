@@ -13,6 +13,9 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.verbose
     if (config.verbose && typeof config.verbose !== 'boolean')
       error = `'verbose' option must be a boolean.`
+    // config.hardwareDetails
+    if (config.hardwareDetails && typeof config.hardwareDetails !== 'boolean')
+      error = `'hardwareDetails' option must be a boolean.`
     // config.anonymousTestName
     if (config.anonymousTestName && typeof config.anonymousTestName !== 'string')
       error = `'anonymousTestName' option must be a string.`

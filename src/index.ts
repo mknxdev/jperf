@@ -8,6 +8,7 @@ const fillConfigDefaults = (config: UserConfig): Config => {
   return {
     autorun: conf.autorun !== undefined ? config.autorun : true,
     verbose: conf.verbose !== undefined ? config.verbose : false,
+    hardwareDetails: conf.hardwareDetails !== undefined ? config.hardwareDetails : false,
     anonymousTestName: conf.anonymousTestName !== undefined ? config.anonymousTestName : ANONYMOUS_TEST_NAME,
     anonymousTestIndex: conf.anonymousTestIndex !== undefined ? config.anonymousTestIndex : ANONYMOUS_TEST_IDX,
   }

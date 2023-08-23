@@ -3,11 +3,13 @@ import { PKG_VERSION } from './constants'
 
 export default class JPLogger {
   _verboseMode: boolean = false
+  _displayHardwareDetails: boolean = false
   _hwDetails = undefined
   _tests = []
 
-  constructor(verbose: boolean, hwDetails) {
+  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails) {
     this._verboseMode = verbose
+    this._displayHardwareDetails = hardwareDetails
     this._hwDetails = hwDetails
   }
   _formatOutput(output: string): string {
@@ -40,12 +42,12 @@ export default class JPLogger {
   log(): void {
     const brand = `jPerf v${PKG_VERSION}`
     let output = `${brand}\r\n`
-    if (this._verboseMode) {
+    if (this._displayHardwareDetails) {
       const { os, architecture, cpus, memory } = this._hwDetails
       let details = ''
       if (cpus) details += `, ${cpus} core${cpus > 1 ? 's' : ''}`
       if (memory) details += `, ${memory}`
-      output += `[${os} ${architecture}${details}]`
+      output += `[${os} ${architecture}${details}]\r\n`
     }
     output += `\r\n+\r\n`
     if (this._tests.length)

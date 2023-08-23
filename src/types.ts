@@ -20,12 +20,14 @@ export type TestAnalysis = {
 export type UserConfig = {
   autorun?: boolean
   verbose?: boolean
+  hardwareDetails?: boolean
   anonymousTestName?: string
   anonymousTestIndex?: number
 }
 export type Config = {
   autorun: boolean
   verbose: boolean
+  hardwareDetails: boolean
   anonymousTestName: string
   anonymousTestIndex: number
 }
