@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Improved HW infos displaying for verbose mode
+
 ## [1.3.2] - 2023-08-20
 
 ### Fixed
