@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Param in `.test` method in order to "split" tests into steps
+
 ## [1.3.3] - 2023-08-23
 
 ### Changed
