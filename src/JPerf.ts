@@ -47,6 +47,9 @@ export default class JPerf {
       tests: this._testData.map((test) => ({
         name: test.name,
         runtime: test.time,
+        steps: this._getComputedTestSteps(test.name).map((step) => ({
+          runtime: step.runtime
+        }))
       })),
     }
   }
@@ -61,13 +64,22 @@ export default class JPerf {
         <version>${analysis.version}</version>
         <tests>
     `.trim()
-    for (const test of this._testData)
+    for (const test of analysis.tests) {
       output += `
         <test>
           <name>${test.name}</name>
-          <runtime>${test.time}</runtime>
+          <runtime>${test.runtime}</runtime>
+          <steps>`.trim()
+      for (const step of test.steps)
+        output += `
+          <step>
+            <runtime>${step.runtime}</runtime>
+          </step>
+        `.trim()
+      output += `</steps>
         </test>
       `.trim()
+    }
     output += `
         </tests>
       </analysis>
@@ -129,7 +141,7 @@ export default class JPerf {
         start: this._tickedTest.start,
         end: this._tickedTest.end,
         time: this._tickedTest.end - this._tickedTest.start,
-        processed: true
+        processed: true,
       })
       this._tickedTest.name = name
       this._tickedTest.start = new Date().getTime()

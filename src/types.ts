@@ -14,7 +14,11 @@ export type TickTestData = {
 }
 export type TestAnalysis = {
   version: string
-  tests: { runtime: number }[]
+  tests: {
+    name: string,
+    runtime: number,
+    steps: { runtime: number }[]
+  }[]
 }
 
 export type UserConfig = {
