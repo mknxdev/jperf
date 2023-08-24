@@ -6,6 +6,7 @@ jPerf is a modern & lightweight JavaScript code tester utility for the browser a
 
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Tests splitting](#tests-splitting)
   - [Alternative use: tick-based testing](#alternative-use-tick-based-testing)
 - [Configuration](#configuration)
 - [Public API](#public-api)
@@ -88,6 +89,29 @@ jperf()
   .showAnalysis()
 ```
 
+### Tests splitting
+
+The callback param used in `.test` method provides function argument which can be optionally used to "split" tests in multiple parts and provide more detailed performance informations.
+
+```js
+const testData = []
+for (let i = 0; i < 10000; i++) testData.push(Math.random())
+
+jperf()
+  .test((_) => {
+    testData.sort()
+    _()
+    testData.map((item) => Math.toFixed(3))
+  })
+  .showAnalysis()
+```
+
+Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each call will add a new step to the test to attach to it additional informations.
+
+Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but requires to enable `verbose` mode in order to be displayed in the console.
+
+***Note:** This feature is only available through the `.test` method for the moment.*
+
 ### Alternative use: tick-based testing
 
 An other way to test code is to use the jPerf's "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around your code with the `.tick` method.
@@ -145,9 +169,20 @@ Setting this option to `false` will prevent code tests to be executed directly. 
 
 **Default** `false`
 
-**_Displays advanced informations about system and code tests._**
+**_Displays advanced informations about code tests._**
 
-Set to `false` by default, it can be enabled to display advanced debug informations, like system and hardware-related infos.
+Set to `false` by default, it can be enabled to display advanced runtime informations for tests.
+
+### `hardwareDetails`
+
+**Type** `boolean`
+
+**Default** `false`
+
+**_Displays informations about script's underlying system._**
+
+Parses and displays informations about operating system, CPU, RAM, etc.  
+Note that especially in browsers' contexts, some system and hardware informations may not be available or not fully reliable.
 
 ### `anonymousTestName`
 
@@ -163,7 +198,8 @@ Allows to customize the name of code tests run without a name.
 
 **Type** `number`
 
-**Default** `0`
+**Default** `0`
+
 
 **_Start index used for anonymous tests increment._**
 
