@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2023-08-24
+
 ### Added
 
-- Param in `.test` method in order to "split" tests into steps
+- New function argument in `.test` method used to "split" tests into steps
 - Tests' steps in analysis
 - `hardwareDetails` config option to display related infos
 
