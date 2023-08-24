@@ -6,6 +6,7 @@ import JPerf from '@src/JPerf'
 const defaultConfig: Config = {
   autorun: true,
   verbose: false,
+  hardwareDetails: false,
   anonymousTestName: 'anonymous',
   anonymousTestIndex: 0,
 }
@@ -95,12 +96,12 @@ describe('JPerf', () => {
     // - JSON
     const oneTestOutput = {
       version: PKG_VERSION,
-      tests: [{ name: 'anonymous #0', runtime: 0 }],
+      tests: [{ name: 'anonymous #0', runtime: 0, steps: [] }],
     }
     const oneTestJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(oneTestJson).toEqual(oneTestOutput)
     const oneTestXml = `
-      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests><test><name>anonymous #0</name><runtime>0</runtime></test></tests></analysis>
+      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests><test><name>anonymous #0</name><runtime>0</runtime><steps></steps></test></tests></analysis>
     `.trim()
     expect(jperf.getAnalysis('xml')).toBe(oneTestXml)
   })

@@ -5,7 +5,7 @@ let jtlogger: JPLogger
 
 describe('JPLogger', () => {
   test('.log', () => {
-    jtlogger = new JPLogger(true, {})
+    jtlogger = new JPLogger(true, false, {})
     let consoleLog = console.log
     const consoleLogMock = jest.fn((_) => undefined)
     console.log = consoleLogMock
