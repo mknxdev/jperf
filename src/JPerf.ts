@@ -12,6 +12,7 @@ export default class JPerf {
   _testDataSteps = {}
   _tickedTest: TickTestData = {
     name: undefined,
+    index: 0,
     start: undefined,
     end: undefined,
     time: undefined,
@@ -100,6 +101,7 @@ export default class JPerf {
       const test: TestData = {
         fn: func,
         name,
+        index,
         start: 0,
         end: 0,
         time: 0,
@@ -130,25 +132,29 @@ export default class JPerf {
   }
   tick(testName?: string): void {
     const { anonymousTestName, anonymousTestIndex } = this._config
-    const index: number = anonymousTestIndex + this._testData.length
-    const name = testName || `${anonymousTestName} #${index}`
+    const name = testName || `${anonymousTestName} #${this._tickedTest.index}`
     if (!this._tickedTest.start) {
-      this._tickedTest.name = name
+      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
+      this._tickedTest.index = anonymousTestIndex + this._testData.length
       this._tickedTest.start = new Date().getTime()
     } else {
+      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
       this._tickedTest.end = new Date().getTime()
       this._testData.push({
         name: this._tickedTest.name,
+        index: this._tickedTest.index,
         start: this._tickedTest.start,
         end: this._tickedTest.end,
         time: this._tickedTest.end - this._tickedTest.start,
         processed: true,
       })
+      this._tickedTest.index = anonymousTestIndex + this._testData.length
       this._tickedTest.name = name
       this._tickedTest.start = new Date().getTime()
     }
   }
   showAnalysis(): JPerf {
+    // console.log(this._testData)
     for (const [_, test] of this._testData.entries())
       if (test.processed) {
         if (this._config.verbose)

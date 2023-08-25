@@ -1,5 +1,6 @@
 export type TestData = {
   name: string
+  index: number
   fn?: Function;
   start: number;
   end: number;
@@ -8,6 +9,7 @@ export type TestData = {
 }
 export type TickTestData = {
   name: string
+  index: number
   start: number
   end: number
   time: number
