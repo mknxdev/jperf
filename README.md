@@ -221,11 +221,11 @@ Note: All methods that return a `JPerf` instance can be chained.
 - `nameOrFn` (required): Defines the test name in case of `string` given, or the function-wrapped tested code otherwise.
 - `fn` (optional): Optional by default, it is required to define the test task if the first argument is of type `string`.
 
-**`nameOrFn`/`fn` function signature** `(step) => void`
+**`nameOrFn`/`fn` function signature** `(step: Function) => void`
 
 **`nameOrFn`/`fn` function params**
 
-- `step`: used to defines a key point at which the test will bé splitted. Commonly named `_` for simplicity.
+- `step`: Defines a key point at which the test will be splitted. Commonly named `_` for simplicity.
 
 **_Defines a test task._**
 
