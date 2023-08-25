@@ -114,7 +114,7 @@ Steps-related runtime informations are always present in analysis extracts (.e.g
 
 ### Alternative use: tick-based testing
 
-Another way to test code is to use the "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around your code using the `.tick` method.
+Another way to test code is to use the "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around it using the `.tick` method.
 
 ```js
 const data = []
@@ -169,7 +169,7 @@ Setting this option to `false` will prevent test tasks to be executed directly. 
 
 **Default** `false`
 
-**_Displays advanced informations about code tests._**
+**_Displays advanced informations about test tasks._**
 
 Can be enabled to display advanced runtime informations for test tasks.
 
