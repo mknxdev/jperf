@@ -120,11 +120,11 @@ Another way to test code is to use the "tick-based testing": instead of wrapping
 const data = []
 for (let i = 0; i < 10000; i++) data.push(Math.random())
 
-const jpf = jperf()
-jpf.tick()
+const j = jperf()
+j.tick()
 data.sort()
-jpf.tick()
-jpf.log()
+j.tick()
+j.log()
 ```
 
 This method accepts an optional `testName` argument (`string`) which is used to identify the following tested code.
@@ -133,11 +133,11 @@ It is also possible to use this method multiple times to run multiple tests.
 
 ```js
 // ...
-jpf.tick('sort test')
+j.tick('sort test')
 data.sort()
-jpf.tick('map test')
+j.tick('map test')
 data.map((item) => Math.toFixed(3))
-jpf.tick()
+j.tick()
 // ...
 ```
 
@@ -198,7 +198,8 @@ Defines the default name of anonymous test tasks.
 
 **Type** `number`
 
-**Default** `0`
+**Default** `0`
+
 
 **_Starting index used for anonymous tests increment._**
 
@@ -232,9 +233,9 @@ Note: All methods that return a `JPerf` instance can be chained.
 Accepts a function to execute for analysis, and optionally a name for identifying the test case (`(anonymous)` is used if no name is provided).  
 Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
 
-The callback function provides an optional function argument allowing to split the corresponding test task.
+The callback function provides an optional function argument allowing to split the surrounding test.
 
-### `.tick`
+### `tick`
 
 **Signature** `.tick(testName?: string): void`
 
@@ -244,10 +245,10 @@ The callback function provides an optional function argument allowing to split t
 
 **_Defines a test task._**
 
-Defines a key point to for a new code test (e.g. "Alternative use"), and optionally accepts a name for identifying the test case (`(anonymous)` is used if no name is provided).  
-This method is called indifferently for starting or ending code test: each new call to automatically stops analysis for previous running test and starts a new one.
+Defines a key point that defines a new test task with the following code. It starts a new test task after eventually completing the previous one if any (after the first call).  
+It accepts an optional `testName` argument for identifying the following test task (`(anonymous)` is used if no name is provided).
 
-### `.run`
+### `run`
 
 **Signature** `.run(): JPerf`
 
@@ -256,7 +257,22 @@ This method is called indifferently for starting or ending code test: each new c
 Manually triggers test tasks' execution.  
 It has no effect if `autorun` configuration option is set to `true`.
 
-### `.showAnalysis`
+### `step`
+
+**Signature** `.step(): void`
+
+**_Splits the surrounding test task into steps ("tick"-based tests only)._**
+
+Similar to the `.test`'s function argument, this method "splits" the surrounding test and generates advanced runtime informations.  
+It is only usable for tests created using the `.tick` method.
+
+### `_`
+
+**Signature** `._(): void`
+
+**_Alias of `step`._**
+
+### `showAnalysis`
 
 **Signature** `.showAnalysis(): JPerf`
 
@@ -264,13 +280,13 @@ It has no effect if `autorun` configuration option is set to `true`.
 
 Method used to log performance results of previous test tasks in the console.
 
-### `.log`
+### `log`
 
 **Signature** `.log(): JPerf`
 
-**_Alias of `.showAnalysis`._**
+**_Alias of `showAnalysis`._**
 
-### `.getAnalysis`
+### `getAnalysis`
 
 **Signature** `.getAnalysis(format: string = 'js'): Object | string`
 
@@ -287,7 +303,7 @@ Here is the list of analysis properties returned by this method (applicable to a
 
 ```js
 {
-  version: "x.x.x", // JPerf version
+  version: 'x.x.x', // JPerf version
   tests: [
     {
       name: 'test', // test name
