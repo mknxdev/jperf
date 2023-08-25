@@ -43,9 +43,15 @@ export default class JPerf {
       }
     })
   }
-  _getFormattedAnalysis(): TestAnalysis {
+  _getComputedAnalysis(): TestAnalysis {
     return {
       version: PKG_VERSION,
+      global: {
+        runtime: this._tests.reduce((value, test) => {
+          value += test.time
+          return value
+        }, 0)
+      },
       tests: this._tests.map((test) => ({
         name: test.name,
         runtime: test.time,
@@ -56,14 +62,17 @@ export default class JPerf {
     }
   }
   _formatAnalysisAsJSON() {
-    return JSON.stringify(this._getFormattedAnalysis())
+    return JSON.stringify(this._getComputedAnalysis())
   }
   _formatAnalysisAsXML() {
-    const analysis = this._getFormattedAnalysis()
+    const analysis = this._getComputedAnalysis()
     let output: string = `
       <?xml version="1.0" encoding="UTF-8" ?>
       <analysis>
         <version>${analysis.version}</version>
+        <global>
+          <runtime>${analysis.global.runtime}</runtime>
+        </global>
         <tests>
     `.trim()
     for (const test of analysis.tests) {
@@ -165,7 +174,6 @@ export default class JPerf {
     return this
   }
   showAnalysis(): JPerf {
-    console.log(this._getComputedTestSteps('(anonymous) #0'))
     for (const [_, test] of this._tests.entries())
       if (test.processed) {
         if (this._config.verbose)
@@ -186,7 +194,7 @@ export default class JPerf {
   }
   getAnalysis(format = 'js'): TestAnalysis | string {
     return {
-      js: this._getFormattedAnalysis(),
+      js: this._getComputedAnalysis(),
       json: this._formatAnalysisAsJSON(),
       xml: this._formatAnalysisAsXML(),
     }[format]

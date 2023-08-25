@@ -16,6 +16,9 @@ export type TickTestData = {
 }
 export type TestAnalysis = {
   version: string
+  global: {
+    runtime:  number
+  },
   tests: {
     name: string,
     runtime: number,

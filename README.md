@@ -213,7 +213,7 @@ Here is the full list of the public properties and methods exposed by the `JPerf
 
 Note: All methods that return a `JPerf` instance can be chained.
 
-### `.test`
+### `test`
 
 **Signature** `.test(nameOrFn: string | Function, fn?: Function): JPerf`
 
@@ -304,6 +304,9 @@ Here is the list of analysis properties returned by this method (applicable to a
 ```js
 {
   version: 'x.x.x', // JPerf version
+  global: {
+    runtime: // total execution runtime (milliseconds)
+  }
   tests: [
     {
       name: 'test', // test name

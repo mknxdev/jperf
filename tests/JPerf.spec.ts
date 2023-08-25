@@ -78,13 +78,26 @@ describe('JPerf', () => {
     expect(emptyJs).toHaveProperty('tests')
     expect(emptyJs.tests.length).toBe(0)
     // - JSON
-    const emptyOutput = { version: PKG_VERSION, tests: [] }
+    const emptyOutput = {
+      version: PKG_VERSION,
+      global: { runtime: 0 },
+      tests: [],
+    }
     const emptyJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(emptyJson).toEqual(emptyOutput)
     // - XML
     const emptyXml = `
-      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests></tests></analysis>
-    `.trim()
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <analysis>
+          <version>${PKG_VERSION}</version>
+          <global>
+            <runtime>0</runtime>
+          </global>
+          <tests></tests>
+        </analysis>
+      `.trim()
+      .replace(/>[ \r\n]*/gi, '>')
+      .replace(/[ \r\n]*</gi, '<')
     expect(jperf.getAnalysis('xml')).toBe(emptyXml)
     // 1 test
     jperf.test(() => {})
@@ -96,13 +109,29 @@ describe('JPerf', () => {
     // - JSON
     const oneTestOutput = {
       version: PKG_VERSION,
+      global: { runtime: 0 },
       tests: [{ name: 'anonymous #0', runtime: 0, steps: [] }],
     }
     const oneTestJson = JSON.parse(jperf.getAnalysis('json') as string)
     expect(oneTestJson).toEqual(oneTestOutput)
     const oneTestXml = `
-      <?xml version="1.0" encoding="UTF-8" ?><analysis><version>${PKG_VERSION}</version><tests><test><name>anonymous #0</name><runtime>0</runtime><steps></steps></test></tests></analysis>
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <analysis>
+        <version>${PKG_VERSION}</version>
+        <global>
+          <runtime>0</runtime>
+        </global>
+        <tests>
+          <test>
+            <name>anonymous #0</name>
+            <runtime>0</runtime>
+            <steps></steps>
+          </test>
+        </tests>
+      </analysis>
     `.trim()
+    .replace(/>[ \r\n]*/gi, '>')
+    .replace(/[ \r\n]*</gi, '<')
     expect(jperf.getAnalysis('xml')).toBe(oneTestXml)
   })
 })
