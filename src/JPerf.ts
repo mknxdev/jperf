@@ -33,7 +33,8 @@ export default class JPerf {
   }
   _getComputedTestSteps(testName: string) {
     const test = this._testData.filter((t) => t.name === testName)[0]
-    const steps = this._testDataSteps[testName].map(s => s.getTime())
+    const testSteps = this._testDataSteps[testName]
+    const steps = testSteps ? testSteps.map(s => s.getTime()) : []
     if (steps.length) steps.push(test.end)
     return steps.map((s, i) => {
       return {
