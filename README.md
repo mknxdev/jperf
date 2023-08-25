@@ -232,7 +232,7 @@ Note: All methods that return a `JPerf` instance can be chained.
 Accepts a function to execute for analysis, and optionally a name for identifying the test case (`(anonymous)` is used if no name is provided).  
 Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
 
-Thé callback function provides an optional function argument allowing to split the corresponding test task.
+The callback function provides an optional function argument allowing to split the corresponding test task.
 
 ### `.tick`
 
