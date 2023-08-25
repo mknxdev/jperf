@@ -1,6 +1,6 @@
 # <div align="center">jPerf</div>
 
-jPerf is a modern & lightweight JavaScript code tester utility for the browser and Node.js. It provides a flexible way to perf test arbitrary code and exposes related performance informations.
+jPerf is a flexible & lightweight JavaScript performance tester utility for the browser and Node.js. It provides a simple but powerful API to test code runtime performance in multiple ways.
 
 ## Summary
 
@@ -16,12 +16,12 @@ jPerf is a modern & lightweight JavaScript code tester utility for the browser a
 
 ## Installation
 
-The main package's bundle uses the UMD format, meaning that it can be installed in multiple ways.  
+This package is bundled using the UMD format, meaning that it can be installed in multiple ways.  
 An ESM-specific bundle is also available for use in modern projects.
 
 ### CDN (browser-only)
 
-As this tool will often be used only temporary for testing purposes, the quickest way to add it to your codebase is by using a CDN-based script (which can be easily removed after testing).
+As it will probably often be used only temporary for testing purposes, the quickest and easiest way to add jPerf to your codebase is by using a CDN-based script.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/jperf@latest/dist/jperf.min.js"></script>
@@ -29,7 +29,7 @@ As this tool will often be used only temporary for testing purposes, the quickes
 
 ### Package manager
 
-However, you can also use a package manager to install jPerf to your project.
+However, you can also use a package manager to install it to your project.
 
 ```sh
 npm i -D jperf
@@ -41,7 +41,7 @@ yarn add -D jperf
 
 ## Usage
 
-When used as an IIFE (e.g. `<script>` tags), a `jperf` function is exposed in the global context and can be used directly.
+When used as an IIFE (e.g. `<script>` tags), the script exposes a `jperf` function in the global context that can be used directly.
 
 ```js
 jperf().test(/* ... */)
@@ -57,95 +57,95 @@ const jperf = require('jperf') // CJS
 jperf().test(/* ... */)
 ```
 
-Each call to the `jperf` function returns a new `JPerf` instance on which the `.test` method can be called to test code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to the `jperf` function returns a new `JPerf` instance on which the `.test` method can be called to test your code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
-const testData = []
-for (let i = 0; i < 10000; i++) testData.push(Math.random())
+const data = []
+for (let i = 0; i < 10000; i++) data.push(Math.random())
 
 jperf()
   .test('sort test', () => {
-    testData.sort()
+    data.sort()
   })
-  .showAnalysis()
+  .log()
 ```
 
-Multiple tests can be executed at once by chaining `.test` method calls.
+Multiple tests can be executed at once by chaining method calls.
 
 ```js
-const testData = []
-for (let i = 0; i < 10000; i++) testData.push(Math.random())
+const data = []
+for (let i = 0; i < 10000; i++) data.push(Math.random())
 
 jperf()
   .test(() => {
-    testData.sort()
+    data.sort()
   })
   .test(() => {
-    testData.map((item) => Math.toFixed(3))
+    data.map((item) => Math.toFixed(3))
   })
   .test(() => {
     // ...
   })
-  .showAnalysis()
+  .log()
 ```
 
 ### Tests splitting
 
-The callback param used in `.test` method provides function argument which can be optionally used to "split" tests in multiple parts and provide more detailed performance informations.
+The callback param used in `.test` method provides a function argument which can be optionally used to "split" tests in multiple parts and provide more detailed performance informations.
 
 ```js
-const testData = []
-for (let i = 0; i < 10000; i++) testData.push(Math.random())
+const data = []
+for (let i = 0; i < 10000; i++) data.push(Math.random())
 
 jperf()
   .test((_) => {
-    testData.sort()
+    data.sort()
     _()
-    testData.map((item) => Math.toFixed(3))
+    data.map((item) => Math.toFixed(3))
   })
-  .showAnalysis()
+  .log()
 ```
 
 Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each call will add a new step to the test to attach to it additional informations.
 
-Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but requires to enable `verbose` mode in order to be displayed in the console.
+Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but require to enable `verbose` mode in order to be displayed in the console.
 
-***Note:** This feature is only available through the `.test` method for the moment.*
+***Note:** This feature is only available through the `.test` method yet.*
 
 ### Alternative use: tick-based testing
 
-An other way to test code is to use the jPerf's "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around your code with the `.tick` method.
+Another way to test code is to use the "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around your code using the `.tick` method.
 
 ```js
-const testData = []
-for (let i = 0; i < 10000; i++) testData.push(Math.random())
+const data = []
+for (let i = 0; i < 10000; i++) data.push(Math.random())
 
 const jpf = jperf()
 jpf.tick()
-testData.sort()
+data.sort()
 jpf.tick()
-jpf.showAnalysis()
+jpf.log()
 ```
 
-This method accepts an optional `testName` argument (`string`) which is used to identify the corresponding test.
+This method accepts an optional `testName` argument (`string`) which is used to identify the following tested code.
 
 It is also possible to use this method multiple times to run multiple tests.
 
 ```js
 // ...
 jpf.tick('sort test')
-testData.sort()
+data.sort()
 jpf.tick('map test')
-testData.map((item) => Math.toFixed(3))
+data.map((item) => Math.toFixed(3))
 jpf.tick()
 // ...
 ```
 
-**Note:** Don't forget to add an end call to this method (after your last test), otherwise the latter will not be completed correctly.
+**Note:** Don't forget to add an end call to this method after your last test, otherwise the latter will not be completed correctly.
 
 ## Configuration
 
-JPerf can be customized by passing to it a configuration object (described below). All configuration options are optional.
+jPerf behavior can be customized by passing to it a configuration object (described below). All configuration options are optional.
 
 <!-- prettier-ignore -->
 ```js
@@ -160,8 +160,8 @@ jperf({ /* options */ })
 
 **_Defines the global running strategy._**
 
-By default, code tests will be executed on-the-fly right away after they are defined through the `.test` method.  
-Setting this option to `false` will prevent code tests to be executed directly. The execution must be triggered manually using the `.run` method in that case.
+By default, test tasks are executed on-the-fly right away after they are defined.    
+Setting this option to `false` will prevent test tasks to be executed directly. Their execution must be triggered manually using the `.run` method in that case.
 
 ### `verbose`
 
@@ -171,7 +171,7 @@ Setting this option to `false` will prevent code tests to be executed directly. 
 
 **_Displays advanced informations about code tests._**
 
-Set to `false` by default, it can be enabled to display advanced runtime informations for tests.
+Can be enabled to display advanced runtime informations for test tasks.
 
 ### `hardwareDetails`
 
@@ -192,22 +192,21 @@ Note that especially in browsers' contexts, some system and hardware information
 
 **_Name used for anonymous tests._**
 
-Allows to customize the name of code tests run without a name.
+Defines the default name of anonymous test tasks.
 
 ### `anonymousTestIndex`
 
 **Type** `number`
 
-**Default** `0`
+**Default** `0`
 
+**_Starting index used for anonymous tests increment._**
 
-**_Start index used for anonymous tests increment._**
-
-Allows to customize the starting index of the increment used for anonymous code tests.
+Defines the starting index of the increment used for anonymous test tasks.
 
 ## Public API
 
-Here is the full list of the public properties and methods exposed by the JPerf instance.
+Here is the full list of the public properties and methods exposed by the `JPerf` instance.
 
 ### Methods
 
@@ -219,13 +218,21 @@ Note: All methods that return a `JPerf` instance can be chained.
 
 **Params**
 
-- `nameOrFn` (required): Defines the test name in case of `string` given, or the code test otherwise (`function`).
-- `fn` (optional): Optional by default, it is required to define the code test if the first argument is of type `string`.
+- `nameOrFn` (required): Defines the test name in case of `string` given, or the function-wrapped tested code otherwise.
+- `fn` (optional): Optional by default, it is required to define the test task if the first argument is of type `string`.
+
+**`nameOrFn`/`fn` function signature** `(step) => void`
+
+**`nameOrFn`/`fn` function params**
+
+- `step`: used to defines a key point at which the test will bé splitted. Commonly named `_` for simplicity.
 
 **_Defines a test task._**
 
 Accepts a function to execute for analysis, and optionally a name for identifying the test case (`(anonymous)` is used if no name is provided).  
 Each call to this method will automatically trigger the corresponding function execution unless `autorun` configuration option is set to `false`.
+
+Thé callback function provides an optional function argument allowing to split the corresponding test task.
 
 ### `.tick`
 
@@ -238,7 +245,7 @@ Each call to this method will automatically trigger the corresponding function e
 **_Defines a test task._**
 
 Defines a key point to for a new code test (e.g. "Alternative use"), and optionally accepts a name for identifying the test case (`(anonymous)` is used if no name is provided).  
-This method is called indifferently for starting or ending code test: each new call to automatically stops analysis for previous running test.
+This method is called indifferently for starting or ending code test: each new call to automatically stops analysis for previous running test and starts a new one.
 
 ### `.run`
 
@@ -284,7 +291,10 @@ Here is the list of analysis properties returned by this method (applicable to a
   tests: [
     {
       name: 'test', // test name
-      runtime: 0, // test's execution runtime (milliseconds)
+      runtime: 0, // test's execution runtime (milliseconds),
+      steps: [ // test steps
+        { runtime: 0 }
+      ]
     }
   ]
 }
