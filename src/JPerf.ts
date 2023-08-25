@@ -8,8 +8,8 @@ export default class JPerf {
   _mode: string = getRunningMode()
   _hwDetails = getHardwareDetails()
   _config: Config
-  _testData: TestData[] = []
-  _testDataSteps = {}
+  _tests: TestData[] = []
+  _stepsByTests = {}
   _tickedTest: TickTestData = {
     name: undefined,
     index: 0,
@@ -24,7 +24,7 @@ export default class JPerf {
     this._logger = new JPLogger(config.verbose, config.hardwareDetails, this._hwDetails)
   }
   _defineTestStep = (testName: string): void => {
-    this._testDataSteps[testName].push(new Date())
+    this._stepsByTests[testName].push(new Date())
   }
   _resetTickedTest(): void {
     this._tickedTest.name = undefined
@@ -33,8 +33,8 @@ export default class JPerf {
     this._tickedTest.time = undefined
   }
   _getComputedTestSteps(testName: string) {
-    const test = this._testData.filter((t) => t.name === testName)[0]
-    const testSteps = this._testDataSteps[testName]
+    const test = this._tests.filter((t) => t.name === testName)[0]
+    const testSteps = this._stepsByTests[testName]
     const steps = testSteps ? testSteps.map(s => s.getTime()) : []
     if (steps.length) steps.push(test.end)
     return steps.map((s, i) => {
@@ -46,7 +46,7 @@ export default class JPerf {
   _getFormattedAnalysis(): TestAnalysis {
     return {
       version: PKG_VERSION,
-      tests: this._testData.map((test) => ({
+      tests: this._tests.map((test) => ({
         name: test.name,
         runtime: test.time,
         steps: this._getComputedTestSteps(test.name).map((step) => ({
@@ -93,7 +93,7 @@ export default class JPerf {
     if (validTest(nameOrFn, fn)) {
       const func = typeof nameOrFn === 'function' ? nameOrFn : fn
       const { anonymousTestName, anonymousTestIndex } = this._config
-      const index: number = anonymousTestIndex + this._testData.length
+      const index: number = anonymousTestIndex + this._tests.length
       const name =
         typeof nameOrFn === 'function'
           ? `${anonymousTestName} #${index}`
@@ -107,14 +107,48 @@ export default class JPerf {
         time: 0,
         processed: false,
       }
-      this._testData.push(test)
-      this._testDataSteps[name] = []
+      this._tests.push(test)
+      this._stepsByTests[name] = []
       if (this._config.autorun) this.run()
       return this
     }
   }
+  tick(testName?: string): void {
+    const { anonymousTestName, anonymousTestIndex } = this._config
+    if (!this._tickedTest.start) {
+      // start first test
+      this._tickedTest.index = anonymousTestIndex
+      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
+      this._stepsByTests[this._tickedTest.name] = []
+      this._tickedTest.start = new Date().getTime()
+    } else {
+      // complete test
+      this._tickedTest.index = anonymousTestIndex + this._tests.length
+      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
+      this._tickedTest.end = new Date().getTime()
+      this._tests.push({
+        name: this._tickedTest.name,
+        index: this._tickedTest.index,
+        start: this._tickedTest.start,
+        end: this._tickedTest.end,
+        time: this._tickedTest.end - this._tickedTest.start,
+        processed: true,
+      })
+      // Start new test
+      this._tickedTest.index = anonymousTestIndex + this._tests.length
+      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
+      this._stepsByTests[this._tickedTest.name] = []
+      this._tickedTest.start = new Date().getTime()
+    }
+  }
+  step(): void {
+    this._defineTestStep(this._tickedTest.name)
+  }
+  _(): void {
+    this.step()
+  }
   run(): JPerf {
-    this._testData = this._testData.map((test) => {
+    this._tests = this._tests.map((test) => {
       if (!test.processed) {
         const start = new Date().getTime()
         test.fn(() => {
@@ -130,32 +164,9 @@ export default class JPerf {
     })
     return this
   }
-  tick(testName?: string): void {
-    const { anonymousTestName, anonymousTestIndex } = this._config
-    const name = testName || `${anonymousTestName} #${this._tickedTest.index}`
-    if (!this._tickedTest.start) {
-      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
-      this._tickedTest.index = anonymousTestIndex + this._testData.length
-      this._tickedTest.start = new Date().getTime()
-    } else {
-      this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
-      this._tickedTest.end = new Date().getTime()
-      this._testData.push({
-        name: this._tickedTest.name,
-        index: this._tickedTest.index,
-        start: this._tickedTest.start,
-        end: this._tickedTest.end,
-        time: this._tickedTest.end - this._tickedTest.start,
-        processed: true,
-      })
-      this._tickedTest.index = anonymousTestIndex + this._testData.length
-      this._tickedTest.name = name
-      this._tickedTest.start = new Date().getTime()
-    }
-  }
   showAnalysis(): JPerf {
-    // console.log(this._testData)
-    for (const [_, test] of this._testData.entries())
+    console.log(this._getComputedTestSteps('(anonymous) #0'))
+    for (const [_, test] of this._tests.entries())
       if (test.processed) {
         if (this._config.verbose)
           this._logger.addTest(
