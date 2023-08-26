@@ -326,7 +326,7 @@ Here is the list of analysis properties returned by this method (applicable to a
 
 ## Limitations
 
-Keep in mind that jPerf relies on native APIs (_Web API_ and _Node.js API_) that are not designed to change a lot over time. However, in some contexts, natives APIs can be manipulated by the user, more or less easily. It is more related to a few native properties, and not really to native functions.
+Keep in mind that jPerf relies on native APIs (_Web API_ and _Node.js API_) that are not designed to change a lot over time. However, in some contexts, natives APIs can be manipulated by the user, more or less easily. It is more related to native propertie than native functions.
 
 Here is a list of some common limitations that can be encountered during usage.
 
