@@ -12,6 +12,7 @@ jPerf is a flexible & lightweight JavaScript performance tester utility for the 
 - [Public API](#public-api)
   - [Methods](#methods)
   - [Properties](#properties)
+- [Limitations](#limitations)
 - [Licensing](#licensing)
 
 ## Installation
@@ -322,6 +323,19 @@ Here is the list of analysis properties returned by this method (applicable to a
 ### Properties
 
 /
+
+## Limitations
+
+Keep in mind that jPerf relies on native APIs (_Web API_ and _Node.js API_) that are not designed to change a lot over time. However, in some contexts, natives APIs can be manipulated by the user, more or less easily. It is more related to a few native properties, and not really to native functions.
+
+Here is a list of some common limitations that can be encountered during usage.
+
+- **[Browser-only]** System informations are mostly retrieved from the `[window.]navigator.userAgent` property. Note that some browsers allow the user to have access and change this value by any string, that can potentially break system informations parsing. This value can also be changed over time by software providers.  
+See the [official documentation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgent) for detailed informations.
+
+- **[Browser-only]** Related to system inforamtions, the CPU core numbers exposed by jPerf relies on the native `[window.]navigator.hardwareConcurrency` property, that can reflect a different number of cores that the real one, due to some software limitations. In browser contexts, this number always reflects the **allocated** number of cores to run threads.  
+Also note that in some browsers, this property is not natively supported.  
+See the [official documentation](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/hardwareConcurrency) for detailed informations.
 
 ## Licensing
 
