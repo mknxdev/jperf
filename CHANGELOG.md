@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Bug with index increment for "tick" tests
 
+### Changed
+
+- Little rework of main class structure
+
 ## [1.4.2] - 2023-08-25
 
 ### Fixed
