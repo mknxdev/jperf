@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.3] - 2023-08-26
+
 ### Added
 
 - `step`/`_` public methods to allow test splitting in "tick"-based tests
