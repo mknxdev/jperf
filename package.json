@@ -1,7 +1,7 @@
 {
   "name": "jperf",
   "version": "1.4.2",
-  "description": "Modern & lightweight JavaScript code performance testing utility for web browsers and Node.js.",
+  "description": "Flexible & lightweight JavaScript performance tester utility for web browsers and Node.js",
   "keywords": [
     "nodejs",
     "javascript",
@@ -13,6 +13,7 @@
     "runtime"
   ],
   "main": "dist/jperf.min.js",
+  "types": "./dist/jperf.d.ts",
   "scripts": {
     "test": "jest -u -c jest.config.ts --verbose --collectCoverage",
     "ci-test": "jest -u -c jest.config.ts --collectCoverage",
@@ -49,6 +50,7 @@
     "prettier": "^3.0.0",
     "prettier-eslint": "^15.0.1",
     "rollup": "^3.26.3",
+    "rollup-plugin-dts": "^6.0.0",
     "rollup-plugin-serve": "^2.0.2",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
