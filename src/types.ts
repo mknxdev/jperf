@@ -32,6 +32,8 @@ export type UserConfig = {
   hardwareDetails?: boolean
   anonymousTestName?: string
   anonymousTestIndex?: number
+  mode?: 'console' | 'html'
+  element?: Element
 }
 export type Config = {
   autorun: boolean
@@ -39,4 +41,6 @@ export type Config = {
   hardwareDetails: boolean
   anonymousTestName: string
   anonymousTestIndex: number
+  mode: 'console' | 'html'
+  element: Element
 }

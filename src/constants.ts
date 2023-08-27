@@ -6,5 +6,7 @@ export const SYS_MODE_WEBBROWSER = 'wb'
 export const SYS_MODE_NODEJS = 'njs'
 export const SYS_MODE_UNKNOWN = 'unknown'
 
+export const DEFAULT_MODE = 'console'
+
 export const ANONYMOUS_TEST_NAME = '(anonymous)'
 export const ANONYMOUS_TEST_IDX = 0
