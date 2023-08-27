@@ -22,7 +22,7 @@ export type TestAnalysis = {
   tests: {
     name: string,
     runtime: number,
-    steps: { runtime: number }[]
+    steps: { runtime: number; percentage: number }[]
   }[]
 }
 

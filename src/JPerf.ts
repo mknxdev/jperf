@@ -58,7 +58,8 @@ export default class JPerf {
         name: test.name,
         runtime: test.time,
         steps: this._getComputedTestSteps(test.name).map((step) => ({
-          runtime: step.runtime
+          runtime: step.runtime,
+          percentage: step.percentage,
         }))
       })),
     }
@@ -87,6 +88,7 @@ export default class JPerf {
         output += `
           <step>
             <runtime>${step.runtime}</runtime>
+            <percentage>${step.percentage}</percentage>
           </step>
         `.trim()
       output += `</steps>
@@ -182,11 +184,10 @@ export default class JPerf {
           this._logger.addTest(
             test.name,
             test.time,
-            test.fn,
             this._getComputedTestSteps(test.name)
           )
         else
-          this._logger.addTest(test.name, test.time, test.fn)
+          this._logger.addTest(test.name, test.time)
       }
     this._logger.log()
     return this

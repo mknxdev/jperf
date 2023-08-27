@@ -36,7 +36,7 @@ export default class JPLogger {
       })
       .join('\r\n')
   }
-  addTest(id: string, time: number, fn: Function = undefined, steps = []): void {
+  addTest(id: string, time: number, steps = []): void {
     this._tests.push({ id, time, steps })
   }
   log(): void {
