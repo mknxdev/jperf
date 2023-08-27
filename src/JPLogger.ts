@@ -55,7 +55,7 @@ export default class JPLogger {
         output += `| ${test.id}\r\n|\r\n| > Runtime: ${d(test.time)}\r\n`
         if (this._verboseMode) {
           for (const [i, step] of test.steps.entries())
-            output += `|   - step ${i}: ${d(step.runtime)}\r\n`
+            output += `|   - [step ${i}] ${d(step.runtime)} (${Math.round(step.percentage)}%)\r\n`
         }
         output += `+\r\n`
       }

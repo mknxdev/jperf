@@ -37,9 +37,11 @@ export default class JPerf {
     const testSteps = this._stepsByTests[testName]
     const steps = testSteps ? testSteps.map(s => s.getTime()) : []
     if (steps.length) steps.push(test.end)
-    return steps.map((s, i) => {
+    return steps.map((s: number, i: number) => {
+    const runtime = !i ? s - test.start : s - steps[i - 1]
       return {
-        runtime: !i ? s - test.start : s - steps[i - 1]
+        runtime,
+        percentage: runtime / test.time * 100
       }
     })
   }
