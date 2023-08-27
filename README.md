@@ -111,8 +111,6 @@ Calling the `_` function in the above example will automatically generate 2 "ste
 
 Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but require to enable `verbose` mode in order to be displayed in the console.
 
-***Note:** This feature is only available through the `.test` method yet.*
-
 ### Alternative use: tick-based testing
 
 Another way to test code is to use the "tick-based testing": instead of wrapping your tested code into callback functions, you can define key points around it using the `.tick` method.
@@ -142,7 +140,24 @@ j.tick()
 // ...
 ```
 
-**Note:** Don't forget to add an end call to this method after your last test, otherwise the latter will not be completed correctly.
+_**Note:** Don't forget to add an end call to this method after your last test, otherwise the latter will not be completed correctly._
+
+You can also "split" your tests with the tick-based approach. jPerf provides two public methods (`step` and `_`) that act the same way as the function argument provided by the `.test` method and are dedicated to work in conjunction with the `.tick` method.
+
+```js
+const data = []
+for (let i = 0; i < 10000; i++) data.push(Math.random())
+
+const j = jperf()
+j.tick()
+data.sort()
+j._()
+data.map((item) => Math.toFixed(3))
+j.tick()
+j.log()
+```
+
+See the [Public API](#public-api) section for more details on these methods.
 
 ## Configuration
 
