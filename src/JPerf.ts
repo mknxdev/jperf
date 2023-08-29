@@ -21,7 +21,13 @@ export default class JPerf {
 
   constructor(config: Config) {
     this._config = config
-    this._logger = new JPLogger(config.verbose, config.hardwareDetails, this._hwDetails)
+    this._logger = new JPLogger(
+      config.verbose,
+      config.hardwareDetails,
+      this._hwDetails,
+      config.mode,
+      config.selector,
+    )
   }
   _defineTestStep = (testName: string): void => {
     this._stepsByTests[testName].push(new Date())

@@ -22,6 +22,19 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.anonymousTestIndex
     if (config.anonymousTestIndex && typeof config.anonymousTestIndex !== 'number')
       error = `'anonymousTestIndex' option must be a number.`
+    // config.mode
+    if (config.mode && (typeof config.mode !== 'string' || !['console', 'html'].includes(config.mode)))
+      error = `'mode' option must be a string with one of: console, html.`
+    // config.selector
+    if (
+      config.selector &&
+      (!['string', 'object'].includes(typeof config.selector) ||
+      (typeof config.selector === 'object' && !config.selector.tagName))
+    )
+      error = `'selector' option must be either a string or a DOM Element.`
+    // config.mode + config.selector
+    if (config.mode && !config.selector)
+      error = `'selector' option is required for HTML mode.`
     if (error) throw new Error(`jPerf: ${error}`)
     return true
   } catch (err) {

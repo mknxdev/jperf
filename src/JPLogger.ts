@@ -1,14 +1,20 @@
+import { Mode } from './types'
 import { d } from './utils'
-import { PKG_VERSION } from './constants'
+import { PKG_VERSION, MODE_CONSOLE, MODE_HTML } from './constants'
+import JPDOMProxy from './JPDOMProxy'
 
 export default class JPLogger {
-  _verboseMode: boolean = false
+  _dom: JPDOMProxy
+  _mode: Mode = 'console'
+  _verbose: boolean = false
   _displayHardwareDetails: boolean = false
   _hwDetails = undefined
   _tests = []
 
-  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails) {
-    this._verboseMode = verbose
+  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | Element) {
+    this._dom = new JPDOMProxy(selector)
+    this._mode = mode
+    this._verbose = verbose
     this._displayHardwareDetails = hardwareDetails
     this._hwDetails = hwDetails
   }
@@ -36,10 +42,7 @@ export default class JPLogger {
       })
       .join('\r\n')
   }
-  addTest(id: string, time: number, steps = []): void {
-    this._tests.push({ id, time, steps })
-  }
-  log(): void {
+  _logToConsole(): void {
     const brand = `jPerf v${PKG_VERSION}`
     let output = `${brand}\r\n`
     if (this._displayHardwareDetails) {
@@ -53,7 +56,7 @@ export default class JPLogger {
     if (this._tests.length)
       for (const test of this._tests) {
         output += `| ${test.id}\r\n|\r\n| > Runtime: ${d(test.time)}\r\n`
-        if (this._verboseMode) {
+        if (this._verbose) {
           for (const [i, step] of test.steps.entries())
             output += `|   - [step ${i}] ${d(step.runtime)} (${Math.round(step.percentage)}%)\r\n`
         }
@@ -62,5 +65,15 @@ export default class JPLogger {
     else output += `| No ran tests.\r\n+\r\n`
     output = this._formatOutput(output)
     console.log(output)
+  }
+  _logToHTML(): void {
+    this._dom.render(this._tests)
+  }
+  addTest(id: string, time: number, steps = []): void {
+    this._tests.push({ id, time, steps })
+  }
+  log(): void {
+    if (this._mode === MODE_CONSOLE) this._logToConsole()
+    if (this._mode === MODE_HTML) this._logToHTML()
   }
 }

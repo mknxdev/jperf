@@ -12,7 +12,7 @@ const fillConfigDefaults = (config: UserConfig): Config => {
     anonymousTestName: conf.anonymousTestName !== undefined ? config.anonymousTestName : ANONYMOUS_TEST_NAME,
     anonymousTestIndex: conf.anonymousTestIndex !== undefined ? config.anonymousTestIndex : ANONYMOUS_TEST_IDX,
     mode: conf.mode || DEFAULT_MODE,
-    element: conf.element || undefined
+    selector: conf.selector || undefined
   }
 }
 

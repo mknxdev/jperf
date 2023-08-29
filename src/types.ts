@@ -26,14 +26,15 @@ export type TestAnalysis = {
   }[]
 }
 
+export type Mode = 'console' | 'html'
 export type UserConfig = {
   autorun?: boolean
   verbose?: boolean
   hardwareDetails?: boolean
   anonymousTestName?: string
   anonymousTestIndex?: number
-  mode?: 'console' | 'html'
-  element?: Element
+  mode?: Mode
+  selector?: string | Element
 }
 export type Config = {
   autorun: boolean
@@ -41,6 +42,6 @@ export type Config = {
   hardwareDetails: boolean
   anonymousTestName: string
   anonymousTestIndex: number
-  mode: 'console' | 'html'
-  element: Element
+  mode: Mode
+  selector: string | Element
 }
