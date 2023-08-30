@@ -1,15 +1,42 @@
-export default class JPDOMProxy {
-  _root: Element
+import { PKG_BRAND } from "./constants"
 
-  constructor(selector: string | Element) {
+export default class JPDOMProxy {
+  _root: HTMLElement
+  _testsRoot: HTMLElement
+
+  constructor(selector: string | HTMLElement) {
     this._root = typeof selector === 'string' ? document.querySelector(selector) : selector
-    console.log(this._root);
-    
+    if (this._root)
+      this._init()
+  }
+  _init(): void {
+    this._root.classList.add('jf-root')
+    this._root.style.padding = '4px'
+    this._root.style.backgroundColor = '#eeeeee'
+    this._root.style.fontFamily = 'Helvetica, sans-serif'
+    this._root.innerHTML = `
+      <div class="jf-container" style="padding: 6px; border: 1px solid #bbbbbb">
+        <div class="jf-header" style="padding-bottom: 6px; text-align: center; font-size: 15px">
+          ${PKG_BRAND}
+        </div>
+        <div class="jf-tests"></div>
+      </div>
+    `.trim()
+    this._testsRoot = document.querySelector('.jf-tests')
   }
   _mount(): void {
 
   }
   render(tests): void {
-
+    if (this._testsRoot)
+      for (const test of tests) {
+        const container = document.createElement('div')
+        container.innerHTML = `
+          <div class="jf-test" style="border: 1px solid #bbbbbb; font-size: 14px">
+            <div style="padding: 2px; text-align: center">${test.name}</div>
+          </div>
+        `.trim()
+        this._testsRoot.append(container)
+      }
   }
 }

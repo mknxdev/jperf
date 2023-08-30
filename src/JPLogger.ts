@@ -1,6 +1,6 @@
 import { Mode } from './types'
 import { d } from './utils'
-import { PKG_VERSION, MODE_CONSOLE, MODE_HTML } from './constants'
+import { PKG_BRAND, MODE_CONSOLE, MODE_HTML } from './constants'
 import JPDOMProxy from './JPDOMProxy'
 
 export default class JPLogger {
@@ -11,7 +11,7 @@ export default class JPLogger {
   _hwDetails = undefined
   _tests = []
 
-  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | Element) {
+  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | HTMLElement) {
     this._dom = new JPDOMProxy(selector)
     this._mode = mode
     this._verbose = verbose
@@ -43,8 +43,7 @@ export default class JPLogger {
       .join('\r\n')
   }
   _logToConsole(): void {
-    const brand = `jPerf v${PKG_VERSION}`
-    let output = `${brand}\r\n`
+    let output = `${PKG_BRAND}\r\n`
     if (this._displayHardwareDetails) {
       const { os, architecture, cpus, memory } = this._hwDetails
       let details = ''
@@ -69,8 +68,8 @@ export default class JPLogger {
   _logToHTML(): void {
     this._dom.render(this._tests)
   }
-  addTest(id: string, time: number, steps = []): void {
-    this._tests.push({ id, time, steps })
+  addTest(name: string, time: number, steps = []): void {
+    this._tests.push({ name, time, steps })
   }
   log(): void {
     if (this._mode === MODE_CONSOLE) this._logToConsole()

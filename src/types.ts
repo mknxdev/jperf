@@ -34,7 +34,7 @@ export type UserConfig = {
   anonymousTestName?: string
   anonymousTestIndex?: number
   mode?: Mode
-  selector?: string | Element
+  selector?: string | HTMLElement
 }
 export type Config = {
   autorun: boolean
@@ -43,5 +43,5 @@ export type Config = {
   anonymousTestName: string
   anonymousTestIndex: number
   mode: Mode
-  selector: string | Element
+  selector: string | HTMLElement
 }

@@ -1,6 +1,7 @@
 import { version } from '../package.json'
 
 export const PKG_VERSION = version
+export const PKG_BRAND = `jPerf v${PKG_VERSION}`
 
 export const SYS_MODE_WEBBROWSER = 'wb'
 export const SYS_MODE_NODEJS = 'njs'
