@@ -1,3 +1,4 @@
+import { ComputedTest } from "./types"
 import { PKG_BRAND } from "./constants"
 import { d } from './utils'
 
@@ -28,24 +29,23 @@ export default class JPDOMProxy {
   _mount(): void {
 
   }
-  render(tests): void {
+  render(tests: ComputedTest[]): void {
     if (this._testsRoot)
       for (const test of tests) {
         const container = document.createElement('div')
         let html = `
           <div class="jf-test" style="border: 1px solid #bbbbbb; font-size: 14px">
             <div style="padding: 2px; text-align: center">${test.name}</div>
-            <div style="display: flex">
+            <div style="display: flex; font-size: 12px">
               <div class="jf-test-info" style="flex: 0 0 50%">
-                Runtime: ${d(test.time)}
+                Runtime: ${d(test.runtime)}
               </div>`.trim()
-        console.log(test.steps);
         if (test.steps.length) {
           html += `<div class="jf-test-steps" style="flex: 0 0 50%">`
           for (const step of test.steps)
             html += `
               <div class="jf-test-step">
-                ${d(step.runtime)}
+                step: ${d(step.runtime)}
               </div>
             `.trim()
           html += `</div>`

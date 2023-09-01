@@ -1,4 +1,4 @@
-import { Mode } from './types'
+import { Mode, ComputedTest, TestStep } from './types'
 import { d } from './utils'
 import { PKG_BRAND, MODE_CONSOLE, MODE_HTML } from './constants'
 import JPDOMProxy from './JPDOMProxy'
@@ -9,7 +9,7 @@ export default class JPLogger {
   _verbose: boolean = false
   _displayHardwareDetails: boolean = false
   _hwDetails = undefined
-  _tests = []
+  _tests: ComputedTest[] = []
 
   constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | HTMLElement) {
     this._dom = new JPDOMProxy(selector)
@@ -54,7 +54,7 @@ export default class JPLogger {
     output += `\r\n+\r\n`
     if (this._tests.length)
       for (const test of this._tests) {
-        output += `| ${test.id}\r\n|\r\n| > Runtime: ${d(test.time)}\r\n`
+        output += `| ${test.name}\r\n|\r\n| > Runtime: ${d(test.runtime)}\r\n`
         if (this._verbose) {
           for (const [i, step] of test.steps.entries())
             output += `|   - [step ${i}] ${d(step.runtime)} (${Math.round(step.percentage)}%)\r\n`
@@ -68,8 +68,8 @@ export default class JPLogger {
   _logToHTML(): void {
     this._dom.render(this._tests)
   }
-  addTest(name: string, time: number, steps = []): void {
-    this._tests.push({ name, time, steps })
+  addTest(name: string, runtime: number, steps: TestStep[] = []): void {
+    this._tests.push({ name, runtime, steps })
   }
   log(): void {
     if (this._mode === MODE_CONSOLE) this._logToConsole()

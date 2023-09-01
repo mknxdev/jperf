@@ -14,16 +14,24 @@ export type TickTestData = {
   end: number
   time: number
 }
+export type RawTestStepsContainer = Record<string, RawTestSteps>
+export type RawTestSteps = Date[]
+export type TestStep = {
+  index: number
+  runtime: number
+  percentage: number
+}
+export type ComputedTest = {
+  name: string,
+  runtime: number
+  steps: TestStep[]
+}
 export type TestAnalysis = {
   version: string
   global: {
     runtime:  number
   },
-  tests: {
-    name: string,
-    runtime: number,
-    steps: { runtime: number; percentage: number }[]
-  }[]
+  tests: ComputedTest[]
 }
 
 export type Mode = 'console' | 'html'
