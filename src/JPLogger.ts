@@ -12,7 +12,7 @@ export default class JPLogger {
   _tests: ComputedTest[] = []
 
   constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | HTMLElement) {
-    this._dom = new JPDOMProxy(selector)
+    this._dom = new JPDOMProxy(verbose, selector)
     this._mode = mode
     this._verbose = verbose
     this._displayHardwareDetails = hardwareDetails
