@@ -48,7 +48,7 @@ When used as an IIFE (e.g. `<script>` tags), the script exposes a `jperf` functi
 jperf().test(/* ... */)
 ```
 
-The package can also be imported using CommonJS or ESM syntaxes.
+This function can also be imported using CommonJS or ESM syntaxes.
 
 ```js
 import jperf from 'jperf' // ESM
@@ -58,7 +58,7 @@ const jperf = require('jperf') // CJS
 jperf().test(/* ... */)
 ```
 
-Each call to the `jperf` function returns a new `JPerf` instance on which the `.test` method can be called to test your code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to this function returns a new `JPerf` instance on which the `.test` method can be called to test your code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const data = []
