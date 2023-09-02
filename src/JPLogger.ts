@@ -1,22 +1,23 @@
-import { Mode, ComputedTest, TestStep } from './types'
+import { Output, ComputedTest, TestStep } from './types'
 import { d } from './utils'
-import { PKG_BRAND, MODE_CONSOLE, MODE_HTML } from './constants'
+import { PKG_BRAND, OUTPUT_CONSOLE, OUTPUT_HTML } from './constants'
 import JPDOMProxy from './JPDOMProxy'
 
 export default class JPLogger {
   _dom: JPDOMProxy
-  _mode: Mode = 'console'
+  _selector: string | HTMLElement
+  _output: Output = OUTPUT_CONSOLE
   _verbose: boolean = false
   _displayHardwareDetails: boolean = false
   _hwDetails = undefined
   _tests: ComputedTest[] = []
 
-  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, mode: Mode, selector: string | HTMLElement) {
-    this._dom = new JPDOMProxy(verbose, selector)
-    this._mode = mode
+  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, output: Output, selector: string | HTMLElement) {
     this._verbose = verbose
     this._displayHardwareDetails = hardwareDetails
     this._hwDetails = hwDetails
+    this._output = output
+    this._selector = selector
   }
   _formatOutput(output: string): string {
     const parts = output.split('\r\n')
@@ -66,13 +67,14 @@ export default class JPLogger {
     console.log(output)
   }
   _logToHTML(): void {
+    this._dom = new JPDOMProxy(this._verbose, this._selector)
     this._dom.render(this._tests)
   }
   addTest(name: string, runtime: number, steps: TestStep[] = []): void {
     this._tests.push({ name, runtime, steps })
   }
   log(): void {
-    if (this._mode === MODE_CONSOLE) this._logToConsole()
-    if (this._mode === MODE_HTML) this._logToHTML()
+    if (this._output === OUTPUT_CONSOLE) this._logToConsole()
+    if (this._output === OUTPUT_HTML) this._logToHTML()
   }
 }

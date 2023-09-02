@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - More tests-related types for better consistency
-- HTML-based analysis (browser-only): `mode`/`selector` config options
+- HTML-based analysis (browser-only): `output`/`selector` config options
 
 ## [1.4.5] - 2023-08-27
 

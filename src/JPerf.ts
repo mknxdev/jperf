@@ -25,7 +25,7 @@ export default class JPerf {
       config.verbose,
       config.hardwareDetails,
       this._hwDetails,
-      config.mode,
+      config.output,
       config.selector,
     )
   }

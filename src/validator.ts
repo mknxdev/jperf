@@ -24,11 +24,11 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.anonymousTestIndex
     if (config.anonymousTestIndex && typeof config.anonymousTestIndex !== 'number')
       error = `'anonymousTestIndex' option must be a number.`
-    // config.mode
-    if (config.mode && (typeof config.mode !== 'string' || !['console', 'html'].includes(config.mode)))
-      error = `'mode' option must be a string with one of: console, html.`
-    if (config.mode && config.mode === 'html' && getRunningMode() === SYS_MODE_NODEJS)
-      error = `HTML mode is not allowed in Node.js environment.`
+    // config.output
+    if (config.output && (typeof config.output !== 'string' || !['console', 'html'].includes(config.output)))
+      error = `'output' option must be a string with one of: console, html.`
+    if (config.output && config.output === 'html' && getRunningMode() === SYS_MODE_NODEJS)
+      error = `HTML output is not allowed in Node.js environment.`
     // config.selector
     if (
       config.selector &&
@@ -36,8 +36,8 @@ export const validConfig = (config?: UserConfig): boolean => {
       (typeof config.selector === 'object' && !config.selector.tagName))
     )
       error = `'selector' option must be either a string or a DOM Element.`
-    // config.mode + config.selector
-    if (!error && config.mode && !config.selector)
+    // config.output + config.selector
+    if (!error && config.output && !config.selector)
       error = `'selector' option is required for HTML mode.`
     if (error) throw new Error(`jPerf: ${error}`)
     return true

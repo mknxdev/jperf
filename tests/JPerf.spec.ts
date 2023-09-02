@@ -10,7 +10,7 @@ const defaultConfig: Config = {
   anonymousTestName: 'anonymous',
   anonymousTestIndex: 0,
   selector: undefined,
-  mode: 'console',
+  output: 'console',
 }
 
 let consoleLog = console.log

@@ -34,14 +34,14 @@ export type TestAnalysis = {
   tests: ComputedTest[]
 }
 
-export type Mode = 'console' | 'html'
+export type Output = 'console' | 'html'
 export type UserConfig = {
   autorun?: boolean
   verbose?: boolean
   hardwareDetails?: boolean
   anonymousTestName?: string
   anonymousTestIndex?: number
-  mode?: Mode
+  output?: Output
   selector?: string | HTMLElement
 }
 export type Config = {
@@ -50,6 +50,6 @@ export type Config = {
   hardwareDetails: boolean
   anonymousTestName: string
   anonymousTestIndex: number
-  mode: Mode
+  output: Output
   selector: string | HTMLElement
 }

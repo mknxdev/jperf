@@ -326,9 +326,12 @@ Here is the list of analysis properties returned by this method (applicable to a
   tests: [
     {
       name: 'test', // test name
-      runtime: 0, // test's execution runtime (milliseconds),
+      runtime: 0, // test's execution runtime (milliseconds)
       steps: [ // test steps
-        { runtime: 0 }
+        {
+          runtime: 0, // step runtime
+          percentage: 100 // step percentage (of total test runtime)
+        }
       ]
     }
   ]
