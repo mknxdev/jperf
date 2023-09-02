@@ -1,7 +1,7 @@
 {
   "name": "jperf",
-  "version": "1.4.5",
-  "description": "Modern & lightweight JavaScript code performance testing utility for web browsers and Node.js.",
+  "version": "1.5.0",
+  "description": "Flexible & lightweight JavaScript performance tester utility for web browsers and Node.js",
   "keywords": [
     "nodejs",
     "javascript",
