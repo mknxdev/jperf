@@ -107,7 +107,7 @@ jperf()
   .log()
 ```
 
-Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each call will add a new step to the test to attach to it additional informations.
+Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each new call will add a new step to the test to attach to it additional informations.
 
 Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but require to enable `verbose` mode in order to be displayed in the console.
 
@@ -140,7 +140,7 @@ j.tick()
 // ...
 ```
 
-_**Note:** Don't forget to add an end call to this method after your last test, otherwise the latter will not be completed correctly._
+_**Note:** Don't forget to add an end call to this method right after your last tested code, otherwise the latter will not be completed correctly._
 
 You can also "split" your tests with the tick-based approach. jPerf provides two public methods (`step` and `_`) that act the same way as the function argument provided by the `.test` method and are dedicated to work in conjunction with the `.tick` method.
 
