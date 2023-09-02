@@ -1,4 +1,6 @@
 import { UserConfig } from './types'
+import { SYS_MODE_NODEJS } from './constants'
+import { getRunningMode } from './utils'
 
 export const validConfig = (config?: UserConfig): boolean => {
   if (config === undefined) return true
@@ -25,6 +27,8 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.mode
     if (config.mode && (typeof config.mode !== 'string' || !['console', 'html'].includes(config.mode)))
       error = `'mode' option must be a string with one of: console, html.`
+    if (config.mode && config.mode === 'html' && getRunningMode() === SYS_MODE_NODEJS)
+      error = `HTML mode is not allowed in Node.js environment.`
     // config.selector
     if (
       config.selector &&
@@ -33,7 +37,7 @@ export const validConfig = (config?: UserConfig): boolean => {
     )
       error = `'selector' option must be either a string or a DOM Element.`
     // config.mode + config.selector
-    if (config.mode && !config.selector)
+    if (!error && config.mode && !config.selector)
       error = `'selector' option is required for HTML mode.`
     if (error) throw new Error(`jPerf: ${error}`)
     return true
