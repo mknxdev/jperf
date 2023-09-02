@@ -189,37 +189,6 @@ Setting this option to `false` will prevent test tasks to be executed directly. 
 
 Can be enabled to display advanced runtime informations for test tasks.
 
-### `hardwareDetails`
-
-**Type** `boolean`
-
-**Default** `false`
-
-**_Displays informations about script's underlying system._**
-
-Parses and displays informations about operating system, CPU, RAM, etc.  
-Note that especially in browsers' contexts, some system and hardware informations may not be available or not fully reliable.
-
-### `anonymousTestName`
-
-**Type** `string`
-
-**Default** `(anonymous)`
-
-**_Name used for anonymous tests._**
-
-Defines the default name of anonymous test tasks.
-
-### `anonymousTestIndex`
-
-**Type** `number`
-
-**Default** `0`
-
-**_Starting index used for anonymous tests increment._**
-
-Defines the starting index of the increment used for anonymous test tasks.
-
 ### `output`
 
 **Type** `string`
@@ -243,6 +212,37 @@ It is only available for browser contexts and should not be used in Node.js envi
 Accepts a valid CSS selector or an HTML element in which analysis reports must be rendered.
 
 It is required when `output` configuration option is set to `html`.
+
+### `hardwareDetails`
+
+**Type** `boolean`
+
+**Default** `false`
+
+**_Displays informations about script's underlying system._**
+
+Parses and displays informations about operating system, CPU, RAM, etc.  
+Note that especially in browsers' contexts, some system and hardware informations may not be available or not fully reliable (see [Limitations](#limitations) section for details).
+
+### `anonymousTestName`
+
+**Type** `string`
+
+**Default** `(anonymous)`
+
+**_Name used for anonymous tests._**
+
+Defines the default name of anonymous test tasks.
+
+### `anonymousTestIndex`
+
+**Type** `number`
+
+**Default** `0`
+
+**_Starting index used for anonymous tests increment._**
+
+Defines the starting index of the increment used for anonymous test tasks.
 
 ## Public API
 
@@ -342,7 +342,7 @@ Here is the list of analysis properties returned by this method (applicable to a
 
 ```js
 {
-  version: 'x.x.x', // JPerf version
+  version: 'x.x.x', // package version
   global: {
     runtime: // total execution runtime (milliseconds)
   }
@@ -352,6 +352,7 @@ Here is the list of analysis properties returned by this method (applicable to a
       runtime: 0, // test's execution runtime (milliseconds)
       steps: [ // test steps
         {
+          index: 0, // step index
           runtime: 0, // step runtime
           percentage: 100 // step percentage (of total test runtime)
         }
