@@ -1,4 +1,6 @@
 import { UserConfig } from './types'
+import { SYS_MODE_NODEJS } from './constants'
+import { getRunningMode } from './utils'
 
 export const validConfig = (config?: UserConfig): boolean => {
   if (config === undefined) return true
@@ -22,6 +24,21 @@ export const validConfig = (config?: UserConfig): boolean => {
     // config.anonymousTestIndex
     if (config.anonymousTestIndex && typeof config.anonymousTestIndex !== 'number')
       error = `'anonymousTestIndex' option must be a number.`
+    // config.output
+    if (config.output && (typeof config.output !== 'string' || !['console', 'html'].includes(config.output)))
+      error = `'output' option must be a string with one of: console, html.`
+    if (config.output && config.output === 'html' && getRunningMode() === SYS_MODE_NODEJS)
+      error = `HTML output is not allowed in Node.js environment.`
+    // config.selector
+    if (
+      config.selector &&
+      (!['string', 'object'].includes(typeof config.selector) ||
+      (typeof config.selector === 'object' && !config.selector.tagName))
+    )
+      error = `'selector' option must be either a string or a DOM Element.`
+    // config.output + config.selector
+    if (!error && config.output && !config.selector)
+      error = `'selector' option is required for HTML mode.`
     if (error) throw new Error(`jPerf: ${error}`)
     return true
   } catch (err) {

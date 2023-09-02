@@ -9,6 +9,8 @@ const defaultConfig: Config = {
   hardwareDetails: false,
   anonymousTestName: 'anonymous',
   anonymousTestIndex: 0,
+  selector: undefined,
+  output: 'console',
 }
 
 let consoleLog = console.log

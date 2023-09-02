@@ -1,16 +1,23 @@
+import { Output, ComputedTest, TestStep } from './types'
 import { d } from './utils'
-import { PKG_VERSION } from './constants'
+import { PKG_BRAND, OUTPUT_CONSOLE, OUTPUT_HTML } from './constants'
+import JPDOMProxy from './JPDOMProxy'
 
 export default class JPLogger {
-  _verboseMode: boolean = false
+  _dom: JPDOMProxy
+  _selector: string | HTMLElement
+  _output: Output = OUTPUT_CONSOLE
+  _verbose: boolean = false
   _displayHardwareDetails: boolean = false
   _hwDetails = undefined
-  _tests = []
+  _tests: ComputedTest[] = []
 
-  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails) {
-    this._verboseMode = verbose
+  constructor(verbose: boolean, hardwareDetails: boolean, hwDetails, output: Output, selector: string | HTMLElement) {
+    this._verbose = verbose
     this._displayHardwareDetails = hardwareDetails
     this._hwDetails = hwDetails
+    this._output = output
+    this._selector = selector
   }
   _formatOutput(output: string): string {
     const parts = output.split('\r\n')
@@ -36,12 +43,8 @@ export default class JPLogger {
       })
       .join('\r\n')
   }
-  addTest(id: string, time: number, steps = []): void {
-    this._tests.push({ id, time, steps })
-  }
-  log(): void {
-    const brand = `jPerf v${PKG_VERSION}`
-    let output = `${brand}\r\n`
+  _logToConsole(): void {
+    let output = `${PKG_BRAND}\r\n`
     if (this._displayHardwareDetails) {
       const { os, architecture, cpus, memory } = this._hwDetails
       let details = ''
@@ -52,8 +55,8 @@ export default class JPLogger {
     output += `\r\n+\r\n`
     if (this._tests.length)
       for (const test of this._tests) {
-        output += `| ${test.id}\r\n|\r\n| > Runtime: ${d(test.time)}\r\n`
-        if (this._verboseMode) {
+        output += `| ${test.name}\r\n|\r\n| > Runtime: ${d(test.runtime)}\r\n`
+        if (this._verbose) {
           for (const [i, step] of test.steps.entries())
             output += `|   - [step ${i}] ${d(step.runtime)} (${Math.round(step.percentage)}%)\r\n`
         }
@@ -62,5 +65,16 @@ export default class JPLogger {
     else output += `| No ran tests.\r\n+\r\n`
     output = this._formatOutput(output)
     console.log(output)
+  }
+  _logToHTML(): void {
+    this._dom = new JPDOMProxy(this._verbose, this._selector)
+    this._dom.render(this._tests)
+  }
+  addTest(name: string, runtime: number, steps: TestStep[] = []): void {
+    this._tests.push({ name, runtime, steps })
+  }
+  log(): void {
+    if (this._output === OUTPUT_CONSOLE) this._logToConsole()
+    if (this._output === OUTPUT_HTML) this._logToHTML()
   }
 }

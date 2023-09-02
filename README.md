@@ -48,7 +48,7 @@ When used as an IIFE (e.g. `<script>` tags), the script exposes a `jperf` functi
 jperf().test(/* ... */)
 ```
 
-The package can also be imported using CommonJS or ESM syntaxes.
+This function can also be imported using CommonJS or ESM syntaxes.
 
 ```js
 import jperf from 'jperf' // ESM
@@ -58,7 +58,7 @@ const jperf = require('jperf') // CJS
 jperf().test(/* ... */)
 ```
 
-Each call to the `jperf` function returns a new `JPerf` instance on which the `.test` method can be called to test your code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
+Each call to this function returns a new `JPerf` instance on which the `.test` method can be called to test your code. You can also name your test to identify it easily (see [Public API](#public-api) for details).
 
 ```js
 const data = []
@@ -107,7 +107,7 @@ jperf()
   .log()
 ```
 
-Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each call will add a new step to the test to attach to it additional informations.
+Calling the `_` function in the above example will automatically generate 2 "steps" for the test (one before and one after the function call). Each new call will add a new step to the test to attach to it additional informations.
 
 Steps-related runtime informations are always present in analysis extracts (.e.g `.getAnalysis`), but require to enable `verbose` mode in order to be displayed in the console.
 
@@ -140,7 +140,7 @@ j.tick()
 // ...
 ```
 
-_**Note:** Don't forget to add an end call to this method after your last test, otherwise the latter will not be completed correctly._
+_**Note:** Don't forget to add an end call to this method right after your last tested code, otherwise the latter will not be completed correctly._
 
 You can also "split" your tests with the tick-based approach. jPerf provides two public methods (`step` and `_`) that act the same way as the function argument provided by the `.test` method and are dedicated to work in conjunction with the `.tick` method.
 
@@ -189,6 +189,30 @@ Setting this option to `false` will prevent test tasks to be executed directly. 
 
 Can be enabled to display advanced runtime informations for test tasks.
 
+### `output`
+
+**Type** `string`
+
+**Default** `console`
+
+**_Output mode for analysis reports._**
+
+Analysis data reports can be either output in the console with a "raw" style or in an HTML view for better readbility. Can be one of: `html`, `console`.
+
+It is only available for browser contexts and should not be used in Node.js environments.
+
+### `selector`
+
+**Type** `string | HTMLElement`
+
+**Default** `undefined`
+
+**_Container element in which analysis reports must be rendered._**
+
+Accepts a valid CSS selector or an HTML element in which analysis reports must be rendered.
+
+It is required when `output` configuration option is set to `html`.
+
 ### `hardwareDetails`
 
 **Type** `boolean`
@@ -198,7 +222,7 @@ Can be enabled to display advanced runtime informations for test tasks.
 **_Displays informations about script's underlying system._**
 
 Parses and displays informations about operating system, CPU, RAM, etc.  
-Note that especially in browsers' contexts, some system and hardware informations may not be available or not fully reliable.
+Note that especially in browsers' contexts, some system and hardware informations may not be available or not fully reliable (see [Limitations](#limitations) section for details).
 
 ### `anonymousTestName`
 
@@ -215,7 +239,6 @@ Defines the default name of anonymous test tasks.
 **Type** `number`
 
 **Default** `0`
-
 
 **_Starting index used for anonymous tests increment._**
 
@@ -319,16 +342,20 @@ Here is the list of analysis properties returned by this method (applicable to a
 
 ```js
 {
-  version: 'x.x.x', // JPerf version
+  version: 'x.x.x', // package version
   global: {
     runtime: // total execution runtime (milliseconds)
   }
   tests: [
     {
       name: 'test', // test name
-      runtime: 0, // test's execution runtime (milliseconds),
+      runtime: 0, // test's execution runtime (milliseconds)
       steps: [ // test steps
-        { runtime: 0 }
+        {
+          index: 0, // step index
+          runtime: 0, // step runtime
+          percentage: 100 // step percentage (of total test runtime)
+        }
       ]
     }
   ]

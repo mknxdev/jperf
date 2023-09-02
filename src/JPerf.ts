@@ -1,5 +1,5 @@
 import JPLogger from './JPLogger'
-import { TestData, TickTestData, TestAnalysis, Config } from './types'
+import { TestData, RawTestStepsContainer, TickTestData, TestAnalysis, Config, TestStep } from './types'
 import { PKG_VERSION } from './constants'
 import { getRunningMode, getHardwareDetails } from './utils'
 import { validTest } from './validator'
@@ -9,7 +9,7 @@ export default class JPerf {
   _hwDetails = getHardwareDetails()
   _config: Config
   _tests: TestData[] = []
-  _stepsByTests = {}
+  _testSteps: RawTestStepsContainer = {}
   _tickedTest: TickTestData = {
     name: undefined,
     index: 0,
@@ -21,10 +21,16 @@ export default class JPerf {
 
   constructor(config: Config) {
     this._config = config
-    this._logger = new JPLogger(config.verbose, config.hardwareDetails, this._hwDetails)
+    this._logger = new JPLogger(
+      config.verbose,
+      config.hardwareDetails,
+      this._hwDetails,
+      config.output,
+      config.selector,
+    )
   }
   _defineTestStep = (testName: string): void => {
-    this._stepsByTests[testName].push(new Date())
+    this._testSteps[testName].push(new Date())
   }
   _resetTickedTest(): void {
     this._tickedTest.name = undefined
@@ -32,14 +38,15 @@ export default class JPerf {
     this._tickedTest.end = undefined
     this._tickedTest.time = undefined
   }
-  _getComputedTestSteps(testName: string) {
+  _getComputedTestSteps(testName: string): TestStep[] {
     const test = this._tests.filter((t) => t.name === testName)[0]
-    const testSteps = this._stepsByTests[testName]
+    const testSteps = this._testSteps[testName]
     const steps = testSteps ? testSteps.map(s => s.getTime()) : []
     if (steps.length) steps.push(test.end)
     return steps.map((s: number, i: number) => {
-    const runtime = !i ? s - test.start : s - steps[i - 1]
+      const runtime = !i ? s - test.start : s - steps[i - 1]
       return {
+        index: i,
         runtime,
         percentage: runtime / test.time * 100
       }
@@ -57,7 +64,8 @@ export default class JPerf {
       tests: this._tests.map((test) => ({
         name: test.name,
         runtime: test.time,
-        steps: this._getComputedTestSteps(test.name).map((step) => ({
+        steps: this._getComputedTestSteps(test.name).map((step, i): TestStep => ({
+          index: i,
           runtime: step.runtime,
           percentage: step.percentage,
         }))
@@ -121,7 +129,7 @@ export default class JPerf {
         processed: false,
       }
       this._tests.push(test)
-      this._stepsByTests[name] = []
+      this._testSteps[name] = []
       if (this._config.autorun) this.run()
       return this
     }
@@ -132,7 +140,7 @@ export default class JPerf {
       // start first test
       this._tickedTest.index = anonymousTestIndex
       this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
-      this._stepsByTests[this._tickedTest.name] = []
+      this._testSteps[this._tickedTest.name] = []
       this._tickedTest.start = new Date().getTime()
     } else {
       // complete test
@@ -150,7 +158,7 @@ export default class JPerf {
       // Start new test
       this._tickedTest.index = anonymousTestIndex + this._tests.length
       this._tickedTest.name = testName || `${anonymousTestName} #${this._tickedTest.index}`
-      this._stepsByTests[this._tickedTest.name] = []
+      this._testSteps[this._tickedTest.name] = []
       this._tickedTest.start = new Date().getTime()
     }
   }
