@@ -216,10 +216,33 @@ Defines the default name of anonymous test tasks.
 
 **Default** `0`
 
-
 **_Starting index used for anonymous tests increment._**
 
 Defines the starting index of the increment used for anonymous test tasks.
+
+### `output`
+
+**Type** `string`
+
+**Default** `console`
+
+**_Output mode for analysis reports._**
+
+Analysis data reports can be either output in the console with a "raw" style or in an HTML view for better readbility. Can be one of: `html`, `console`.
+
+It is only available for browser contexts and should not be used in Node.js environments.
+
+### `selector`
+
+**Type** `string | HTMLElement`
+
+**Default** `undefined`
+
+**_Container element in which analysis reports must be rendered._**
+
+Accepts a valid CSS selector or an HTML element in which analysis reports must be rendered.
+
+It is required when `output` configuration option is set to `html`.
 
 ## Public API
 
