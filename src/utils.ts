@@ -1,3 +1,4 @@
+import { HWDetails } from './types'
 import {
   SYS_MODE_NODEJS,
   SYS_MODE_WEBBROWSER,
@@ -9,7 +10,7 @@ const S_DIVIDER = 1000
 const MN_DIVIDER = 60000
 const HR_DIVIDER = 3600000
 
-export const d = (millis: number) => {
+export const d = (millis: number): string => {
   if (millis < S_DIVIDER) return `${millis}ms`
   if (millis < MN_DIVIDER) return `${millis / S_DIVIDER}s`
   if (millis < HR_DIVIDER) {
@@ -31,7 +32,7 @@ export const d = (millis: number) => {
   return fmt
 }
 
-export const size = (nb: number) => {
+export const size = (nb: number): { value: number, unit: string } => {
   const units = ['kB', 'MB', 'GB']
   return units.reduce(
     (s, unit) => {
@@ -51,12 +52,6 @@ type XPerformance = Performance & {
   memory: {
     jsHeapSizeLimit: number
   }
-}
-type HWDetails = {
-  os: string
-  architecture: string
-  cpus: number | string
-  memory: string
 }
 
 export const getRunningMode = (): string => {
@@ -90,7 +85,7 @@ const detectOS = (): string => {
   }
 }
 
-const detectArchitecture = () => {
+const detectArchitecture = (): string => {
   if (getRunningMode() === SYS_MODE_WEBBROWSER && globalThis.navigator) {
     const raw = [
       ...globalThis.navigator.userAgent.matchAll(/(x32|x64|x86_64)/gi),

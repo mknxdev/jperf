@@ -1,3 +1,4 @@
+// Core
 export type TestData = {
   name: string
   index: number
@@ -33,7 +34,13 @@ export type TestAnalysis = {
   },
   tests: ComputedTest[]
 }
-
+export type HWDetails = {
+  os: string
+  architecture: string
+  cpus: number | string
+  memory: string
+}
+// General
 export type Output = 'console' | 'html'
 export type UserConfig = {
   autorun?: boolean

@@ -29,7 +29,7 @@ export default class JPerf {
       config.selector,
     )
   }
-  _defineTestStep = (testName: string): void => {
+  _defineTestStep(testName: string): void {
     this._testSteps[testName].push(new Date())
   }
   _resetTickedTest(): void {
@@ -72,10 +72,10 @@ export default class JPerf {
       })),
     }
   }
-  _formatAnalysisAsJSON() {
+  _formatAnalysisAsJSON(): string {
     return JSON.stringify(this._getComputedAnalysis())
   }
-  _formatAnalysisAsXML() {
+  _formatAnalysisAsXML(): string {
     const analysis = this._getComputedAnalysis()
     let output: string = `
       <?xml version="1.0" encoding="UTF-8" ?>

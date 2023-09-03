@@ -16,7 +16,7 @@ const fillConfigDefaults = (config: UserConfig): Config => {
   }
 }
 
-export default function (config: UserConfig = {}) {
+export default function (config: UserConfig = {}): JPerf {
   if (validConfig(config)) {
     return new JPerf(fillConfigDefaults(config))
   }

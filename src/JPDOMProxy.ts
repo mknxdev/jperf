@@ -27,9 +27,6 @@ export default class JPDOMProxy {
     `.trim()
     this._testsRoot = document.querySelector('.jf-tests')
   }
-  _mount(): void {
-
-  }
   render(tests: ComputedTest[]): void {
     if (this._testsRoot)
       for (const [i, test] of tests.entries()) {
