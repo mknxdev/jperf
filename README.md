@@ -345,7 +345,7 @@ Here is the list of analysis properties returned by this method (applicable to a
   version: 'x.x.x', // package version
   global: {
     runtime: // total execution runtime (milliseconds)
-  }
+  },
   tests: [
     {
       name: 'test', // test name
